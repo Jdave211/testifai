@@ -1,0 +1,30 @@
+.particles{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:-1;
+  }
+
+  .name{
+    font-size: 9rem;
+    font-weight: 800;
+    background: linear-gradient(#FFD700, #4B0082);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-top: 4rem;
+    z-index:-1;
+  }
+
+  .column_text{
+    max-width: 400px;
+    margin-top: 80px;
+  }
+
+  .inf{
+    background: linear-gradient(#FFD700, #4B0082);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  }
