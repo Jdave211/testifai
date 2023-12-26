@@ -1,13 +1,14 @@
 import React from 'react';
 import ParticlesBg from 'particles-bg';
 import './Info.css';
+import { motion } from 'framer-motion';
 
 const Info = () => {
     return (
-        <div className='flex mt-5'>
+        <div className='flex'>
             <div className='mx-auto mt-7 relative w-100'>
                 <div className='inf'>
-                    <p className='name mx-auto relative'>Testifai</p>
+                    <p className='name mx-auto relative'>TestifAI</p>
                     <div className='flex justify-between mb-9'>
                         <p className='text-5xl font-bold ml-5 text-yellow-600 '>By Students, For Students</p>
                         <p className='column_text mr-5 mt-2 font-medium text-yellow-600  mb-10'>

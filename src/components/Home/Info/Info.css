@@ -14,7 +14,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
     text-align: center;
-    margin-top: 4rem;
+    margin-top: 1rem;
     z-index:-1;
   }
 
@@ -24,8 +24,11 @@
   }
 
   .inf{
-    background: linear-gradient(#FFD700, #4B0082);
+  background: linear-gradient(#FFD700, #4B0082);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  }
+
+  .pinf{
   border-bottom: #d9e7ff 2px solid;
   }
