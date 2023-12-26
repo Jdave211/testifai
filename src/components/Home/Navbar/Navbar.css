@@ -1,12 +1,18 @@
 
 .nav{
-    background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+    background: linear-gradient(90deg,#d9e7ff  0%, #e3ffe7 100%);
     box-sizing: border-box;
     color: black;
     display:flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: #d9e7ff 2px solid;
-    margin-left: 50px;
-    margin-right: 50px;
+}
+
+.logo{
+    margin-left: 25px;
+}
+
+.profile{
+    margin-right: 25px;
 }

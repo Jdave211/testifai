@@ -13,6 +13,7 @@
     "@tsparticles/react": "^3.0.0",
     "boxicons": "^2.1.4",
     "framer-motion": "^10.16.16",
+    "openai": "^4.24.1",
     "particles-bg": "^2.5.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

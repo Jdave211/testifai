@@ -13,7 +13,6 @@ const Navbar = () => {
             </Link>
             <ul className ='items flex space-x-8 ml-auto'>
             <a href='' className='profile black_btn'>Profile</a>
-            <p>🌙</p>
             </ul>
         </nav>
     );

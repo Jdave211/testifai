@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import formIcon from '../../images/form.png';
+import plusIcon from '../../images/plus.png';
+import minusIcon from '../../images/minus.png';
 import { Link } from 'react-router-dom';
 
 const KnowledgeBaseForm = () => {
-  const MAX_URLS = 3; // Maximum number of URLs
+  const MAX_URLS = 3;
 
   const [urls, setUrls] = useState(['']);
 
@@ -38,7 +40,7 @@ const KnowledgeBaseForm = () => {
           {urls.map((url, index) => (
             <div key={index} className='relative flex items-center w-full'>
               <button type='button' onClick={() => removeUrlInput(index)}>
-                -
+                <img src ={minusIcon} alt='remove_icon' className='my-2 -ml-2 w-3' />
               </button>
               <img src={formIcon} alt='link_icon' className='absolute left-0 my-2 ml-3 w-5' />
               <input
@@ -52,12 +54,12 @@ const KnowledgeBaseForm = () => {
           ))}
           {urls.length < MAX_URLS && (
             <button type='button' onClick={addUrlInput}>
-              +
+              <img src ={plusIcon} alt='plus_icon' className='absolute left-0 my-2 -ml-4 w-5' />
             </button>
           )}
           <Link to='/parameters'>
             <button
-              type='button' // Change to 'submit' if you want to trigger form submission
+              type='submit'
               onClick={handleSubmit}
               className='submit_btn black_btn peer-focus:border-gray-700 peer-focus:text-gray-700'
             >
@@ -66,8 +68,8 @@ const KnowledgeBaseForm = () => {
           </Link>
         </form>
         <div>
-          <p className='mt-3 font-bold text-center'>
-            Enter the links to your class notes, video lectures, or documents (up to {MAX_URLS} URLs) so we can work our magic.
+          <p className='mt-7 font-bold text-center'>
+            Enter the links to your class notes, video lectures, or documents so we can work our magic.
           </p>
         </div>
       </div>
