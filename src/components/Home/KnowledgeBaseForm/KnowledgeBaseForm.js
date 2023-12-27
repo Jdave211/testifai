@@ -3,6 +3,13 @@ import formIcon from '../../images/form.png';
 import plusIcon from '../../images/plus.png';
 import minusIcon from '../../images/minus.png';
 import { Link } from 'react-router-dom';
+import  {ApifyClient} from 'apify-client';
+
+// const client = useMemo(() => {
+//   return new ApifyClient({
+//     token: process.env.REACT_APP_APIFY_TOKEN,
+//   });
+// }, []);
 
 const KnowledgeBaseForm = () => {
   const MAX_URLS = 3;
@@ -11,7 +18,7 @@ const KnowledgeBaseForm = () => {
 
   const addUrlInput = () => {
     if (urls.length < MAX_URLS) {
-      setUrls([...urls, '']);
+      setUrls([...urls, '']); 
     }
   };
 
@@ -34,7 +41,7 @@ const KnowledgeBaseForm = () => {
   };
 
   return (
-    <div className='flex mt-10 justify-center'>
+    <div className='flex mt-20 justify-center mb-20'>
       <div className='flex flex-col gap-2 ml-5 mr-5 w-1/2'>
         <form className='relative flex flex-col items-center'>
           {urls.map((url, index) => (
