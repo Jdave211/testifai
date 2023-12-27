@@ -46,6 +46,7 @@ const KnowledgeBaseForm = () => {
               <input
                 type='url'
                 placeholder='Enter a URL'
+                required
                 value={url}
                 onChange={(e) => handleUrlChange(index, e.target.value)}
                 className='url_input pl-10 w-full'
