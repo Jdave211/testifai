@@ -3,7 +3,6 @@ import formIcon from '../../images/form.png';
 import plusIcon from '../../images/plus.png';
 import minusIcon from '../../images/minus.png';
 import { Link } from 'react-router-dom';
-import ApifyClient from 'apify-client';
 
 // const client = useMemo(() => {
 //   return new ApifyClient({
