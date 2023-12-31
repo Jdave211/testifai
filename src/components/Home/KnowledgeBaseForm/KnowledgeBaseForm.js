@@ -3,12 +3,8 @@ import formIcon from '../../images/form.png';
 import plusIcon from '../../images/plus.png';
 import minusIcon from '../../images/minus.png';
 import { Link } from 'react-router-dom';
+import { useLazyGetArticleQuery } from '../../../services/article.js';
 
-// const client = useMemo(() => {
-//   return new ApifyClient({
-//     token: process.env.REACT_APP_APIFY_TOKEN,
-//   });
-// }, []);
 
 const KnowledgeBaseForm = () => {
   const MAX_URLS = 3;
