@@ -34,6 +34,7 @@ const KnowledgeBaseForm = () => {
   const [getArticle, {error, isFetching}] = useLazyGetArticleQuery();
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     const {data} = await getArticle({ articleUrl: urls[0] });
 
     if(data?.article) {
