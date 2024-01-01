@@ -15,7 +15,7 @@ export const articleApi = createApi({
     endpoints: (builder) => ({
       getArticles: builder.query({
         query: (params) =>
-          `/article/parse?url=${encodeURIComponent(params.articleUrl)}`,
+          `/article/parse?url=${encodeURIComponent(params.articleUrl)}&length=3`,
       }),
     }),
   });

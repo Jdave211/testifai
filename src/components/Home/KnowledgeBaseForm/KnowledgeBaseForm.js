@@ -31,10 +31,17 @@ const KnowledgeBaseForm = () => {
     }
   };
 
-  const [articleText, setArticleText] = useState('');
+  const [getArticle, {error, isFetching}] = useLazyGetArticleQuery();
 
-  const handleSubmit = () => {
-    // Handle the submission with the array of URLs (urls)
+  const handleSubmit = async (e) => {
+    const {data} = await getArticle({ articleUrl: urls[0] });
+
+    if(data?.article) {
+      const newArticle = { ...article, article: data.article};
+
+      setArticle(newArticle);
+      console.log(newArticle);
+    }
   };
 
   return (
