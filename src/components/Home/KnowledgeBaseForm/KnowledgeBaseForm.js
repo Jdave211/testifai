@@ -31,6 +31,8 @@ const KnowledgeBaseForm = () => {
     }
   };
 
+  const [articleText, setArticleText] = useState('');
+
   const handleSubmit = () => {
     // Handle the submission with the array of URLs (urls)
   };
