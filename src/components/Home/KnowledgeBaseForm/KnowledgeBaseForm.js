@@ -10,22 +10,24 @@ const KnowledgeBaseForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { articleData } = await getArticle({ articleUrl: encodeURIComponent(url) });
-
-   console.log(articleData)
-
-  //  function removeHtmlTags(htmlString) {
-  //   var doc = new DOMParser().parseFromString(htmlString, 'text/html');
-  //   return doc.body.textContent || "";
-  // }
   
-
-    if (articleData?.data) {
-      const newArticle = { ...article, article: articleData.data.content };
+    const { data } = await getArticle({ articleUrl: encodeURIComponent(url) });
+  
+    if (data?.data?.content) {
+      const articleContent = data.data.content;
+  
+      function removeHtmlTags(htmlString) {
+        var doc = new DOMParser().parseFromString(htmlString, 'text/html');
+        return doc.body.textContent || "";
+      }
+  
+      const newArticle = { ...article, article: removeHtmlTags(JSON.stringify({ articleContent }, null, 2)) };
+  
       setArticle(newArticle);
-      console.log(newArticle);
+      console.log(JSON.stringify(newArticle, null, 2));
     }
   };
+  
 
   return (
     <div className='flex mt-20 justify-center mb-20'>
