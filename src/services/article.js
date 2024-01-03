@@ -15,13 +15,10 @@ export const articleApi = createApi({
     endpoints: (builder) => ({
       getArticles: builder.query({
         query: (params) =>
-          `/article/parse?url=${encodeURIComponent(params.articleUrl)}&length=3`,
-      }),
-      useLazyGetArticleQuery: builder.query({
-        query: () => '/article',
+          `/article/parse?url=${encodeURIComponent(params.articleUrl)}&word_per_minute=300&desc_truncate_len=210&desc_len_min=180&content_len_min=200`,
       }),
     }),
   });
   
-  export const  {useLazyGetArticleQuery}  = articleApi.endpoints;
+  export const  {useLazyGetArticlesQuery}  = articleApi;
   
