@@ -17,8 +17,11 @@ export const articleApi = createApi({
         query: (params) =>
           `/article/parse?url=${encodeURIComponent(params.articleUrl)}&length=3`,
       }),
+      useLazyGetArticleQuery: builder.query({
+        query: () => '/article',
+      }),
     }),
   });
   
-  export const { useLazyGetArticleQuery } = articleApi;
+  export const  {useLazyGetArticleQuery}  = articleApi.endpoints;
   

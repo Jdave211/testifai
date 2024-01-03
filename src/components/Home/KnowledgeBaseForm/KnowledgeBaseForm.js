@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,} from 'react';
 import formIcon from '../../images/form.png';
 import plusIcon from '../../images/plus.png';
 import minusIcon from '../../images/minus.png';
 import { Link } from 'react-router-dom';
-import { useLazyGetArticleQuery } from '../../../services/article.js';
+import  {useLazyGetArticleQuery}  from '../../../services/article.js';
 
 
 const KnowledgeBaseForm = () => {
   const MAX_URLS = 3;
 
   const [urls, setUrls] = useState(['']);
+  const [article, setArticle] = useState({});
 
   const addUrlInput = () => {
     if (urls.length < MAX_URLS) {
@@ -31,7 +32,7 @@ const KnowledgeBaseForm = () => {
     }
   };
 
-  const [getArticle, {error, isFetching}] = useLazyGetArticleQuery();
+  const [getArticles, {error, isFetching}] = useLazyGetArticlesQuery();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
