@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import formIcon from '../../images/form.png';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
 
 const KnowledgeBaseForm = () => {
   const [url, setUrl] = useState('');
   const [article, setArticle] = useState({});
   const [getArticle, { error, isFetching }] = useLazyGetArticlesQuery();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +25,10 @@ const KnowledgeBaseForm = () => {
       const newArticle = { ...article, article: removeHtmlTags(JSON.stringify({ articleContent }, null, 2)) };
   
       setArticle(newArticle);
-      console.log(JSON.stringify(newArticle, null, 2));
+      const userMessage = JSON.stringify(newArticle, null, 2);
+      console.log(userMessage);
+  
+      navigate('parameters');
     }
   };
   

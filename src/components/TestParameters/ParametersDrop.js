@@ -26,7 +26,7 @@ const ParametersDrop = () => {
       const options3 = [
         { value: '5', label: '5 questions' },
         { value: '10', label: '10 questions' },
-        { value: '20', label: '15 questions' },
+        { value: '15', label: '15 questions' },
         { value: '20', label: '20 questions' },
         { value: '25', label: '25 questions' },
         { value: '30', label: '30 questions' }
