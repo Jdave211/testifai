@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import './DropDownList.css';
 
 
-const DropDownList = ({ label, options,}) => {
+const DropDownList = ({ name, label, options, onSelect}) => {
     const [selectedValue, setSelectedValue] = useState('');
   
     const handleDropdownChange = (event) => {
         setSelectedValue(event.target.value);
+        onSelect(name, event.target.value);
       };
 
     return (
