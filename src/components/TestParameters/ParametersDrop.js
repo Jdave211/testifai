@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import DropDownList from './DropDownList';
 import Navbar from '../Home/Navbar/Navbar';
-// import { openaiAssistant } from '../../services/openai';    chill for now
 
 
 const ParametersDrop = () => {
@@ -16,7 +15,7 @@ const ParametersDrop = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // openaiAssistant(selectedOptions.difficulty, selectedOptions.numberOfQuestions, selectedOptions.type);       chill for now
+        
         console.log(selectedOptions);
     }
 
