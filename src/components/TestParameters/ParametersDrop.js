@@ -1,11 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import DropDownList from './DropDownList';
 import Navbar from '../Home/Navbar/Navbar';
+import loader from '../images/loader.gif';
+import UserMessageContext from '../Home/KnowledgeBaseForm/UserMessageContext.js';
 
 
 const ParametersDrop = () => {
     const [selectedOptions, setSelectedOptions] = useState('');
     const [response, setResponse] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const userMessage = useContext(UserMessageContext);
 
     const handleSelect = (name, value) => {
         setSelectedOptions(prevOptions => ({
@@ -17,14 +21,19 @@ const ParametersDrop = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(selectedOptions);
-        try {
-            const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify(selectedOptions))}`);
-            const data = await serverResponse.json();
-            setResponse(JSON.stringify(data, null, 2));
-            console.log(data);
-          } catch (error) {
-            console.error('Error fetching data from server:', error);
-          }
+        setIsLoading(true);
+        setTimeout(async () => {
+            try {
+                const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage}))}`);
+                const data = await serverResponse.json();
+                setResponse(JSON.stringify(data, null, 2));
+                console.log(data);
+            } catch (error) {
+                console.error('Error fetching data from server:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        }, 3000);
     }
 
     const options = [
@@ -37,8 +46,7 @@ const ParametersDrop = () => {
         { value: 'multiple choice', label: 'McQ' },
         { value: 'short answer', label: 'Short Answer' },
         { value: 'True/False', label: 'T/F' },
-        { value: 'essay', label: 'Essay' },
-        { value: 'random', label: 'Random' }
+        { value: 'essay', label: 'Essay' }
       ];
       
       const options3 = [
@@ -50,24 +58,34 @@ const ParametersDrop = () => {
         { value: '30', label: '30 questions' }
       ];
 
-    return (
+      return (
         <div>
             <Navbar />
             <div>
-                <DropDownList name='difficultyLevel' label="Select your test difficulty" options={options} onSelect={handleSelect} />  
-                <DropDownList name='quizType' label="Select your type of test" options={options2} onSelect={handleSelect} />  
-                <DropDownList name='numberofquestions' label="Select your number of questions" options={options3} onSelect={handleSelect} />  
-            </div>
-            <div className='mt-3'>
-                <button 
-                    type='button'
-                    onClick={handleSubmit}
-                    className='black_btn mx-auto flex text-lg'>
-                    Generate Test
-                </button>
+                {isLoading ?
+                    <div className='my-10 max-w-full flex justify-center items-center'> 
+                        <img src={loader} alt='loader' className='w-30 h-30 object-contain' />
+                    </div> :
+                    (
+                        <div>
+                            <DropDownList name='difficultyLevel' label="Select your test difficulty" options={options} onSelect={handleSelect} />  
+                            <DropDownList name='quizType' label="Select your type of test" options={options2} onSelect={handleSelect} />  
+                            <DropDownList name='numberofquestions' label="Select your number of questions" options={options3} onSelect={handleSelect} />  
+                            <div className='mt-3 flex justify-center items-center'>
+                                <button 
+                                    type='button'
+                                    onClick={handleSubmit}
+                                    className='black_btn mx-auto flex text-lg'>
+                                    Generate Test
+                                </button>
+                            </div>
+                            <div className='my-10 max-w-full flex justify-center items-center'>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
-        
     );
 }
 
