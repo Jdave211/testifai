@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import DropDownList from './DropDownList';
 import Navbar from '../Home/Navbar/Navbar';
-import { openaiAssistant } from '../../services/openai';
+// import { openaiAssistant } from '../../services/openai';    chill for now
 
 
 const ParametersDrop = () => {
@@ -16,7 +16,7 @@ const ParametersDrop = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        openaiAssistant(selectedOptions.difficulty, selectedOptions.numberOfQuestions, selectedOptions.type);
+        // openaiAssistant(selectedOptions.difficulty, selectedOptions.numberOfQuestions, selectedOptions.type);       chill for now
         console.log(selectedOptions);
     }
 
@@ -27,11 +27,11 @@ const ParametersDrop = () => {
       ];
       
       const options2 = [
-        { label: 'Multiple Choice', value: 'McQ' },
-        { label: 'Short Answer', value: 'Short Answer' },
-        { label: 'True/False', value: 'T/F' },
-        { label: 'Essay', value: 'Essay' },
-        { label: 'Random', value: 'Random' }
+        { value: 'Multiple Choice', label: 'McQ' },
+        { value: 'Short Answer', label: 'Short Answer' },
+        { value: 'True/False', label: 'T/F' },
+        { value: 'Essay', label: 'Essay' },
+        { value: 'Random', label: 'Random' }
       ];
       
       const options3 = [
