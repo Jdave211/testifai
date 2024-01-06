@@ -2,14 +2,13 @@ import React, {useState, useContext} from 'react';
 import DropDownList from './DropDownList';
 import Navbar from '../Home/Navbar/Navbar';
 import loader from '../images/loader.gif';
-import UserMessageContext from '../Home/KnowledgeBaseForm/UserMessageContext.js';
 
 
 const ParametersDrop = () => {
     const [selectedOptions, setSelectedOptions] = useState('');
     const [response, setResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const userMessage = useContext(UserMessageContext);
+    const userMessage = window.localStorage.getItem('userMessage');
 
     const handleSelect = (name, value) => {
         setSelectedOptions(prevOptions => ({
@@ -20,13 +19,15 @@ const ParametersDrop = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(selectedOptions);
+        
+        console.log(userMessage);
         setIsLoading(true);
         setTimeout(async () => {
             try {
-                const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage}))}`);
+                const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: userMessage}))}`);
                 const data = await serverResponse.json();
                 setResponse(JSON.stringify(data, null, 2));
+                console.log(selectedOptions);
                 console.log(data);
             } catch (error) {
                 console.error('Error fetching data from server:', error);
@@ -50,12 +51,12 @@ const ParametersDrop = () => {
       ];
       
       const options3 = [
-        { value: '5', label: '5 questions' },
-        { value: '10', label: '10 questions' },
-        { value: '15', label: '15 questions' },
-        { value: '20', label: '20 questions' },
-        { value: '25', label: '25 questions' },
-        { value: '30', label: '30 questions' }
+        { value: 5, label: '5 questions' },
+        { value: 10, label: '10 questions' },
+        { value: 15, label: '15 questions' },
+        { value: 20, label: '20 questions' },
+        { value: 25, label: '25 questions' },
+        { value: 30, label: '30 questions' }
       ];
 
       return (
@@ -70,7 +71,7 @@ const ParametersDrop = () => {
                         <div>
                             <DropDownList name='difficultyLevel' label="Select your test difficulty" options={options} onSelect={handleSelect} />  
                             <DropDownList name='quizType' label="Select your type of test" options={options2} onSelect={handleSelect} />  
-                            <DropDownList name='numberofquestions' label="Select your number of questions" options={options3} onSelect={handleSelect} />  
+                            <DropDownList name='numberOfQuestions' label="Select your number of questions" options={options3} onSelect={handleSelect} />  
                             <div className='mt-3 flex justify-center items-center'>
                                 <button 
                                     type='button'
