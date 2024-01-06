@@ -5,6 +5,7 @@ import Navbar from '../Home/Navbar/Navbar';
 
 const ParametersDrop = () => {
     const [selectedOptions, setSelectedOptions] = useState('');
+    const [response, setResponse] = useState(null);
 
     const handleSelect = (name, value) => {
         setSelectedOptions(prevOptions => ({
@@ -13,24 +14,31 @@ const ParametersDrop = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
         console.log(selectedOptions);
+        try {
+            const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify(selectedOptions))}`);
+            const data = await serverResponse.json();
+            setResponse(JSON.stringify(data, null, 2));
+            console.log(data);
+          } catch (error) {
+            console.error('Error fetching data from server:', error);
+          }
     }
 
     const options = [
-        { value: 'Easy', label: 'Easy' },
-        { value: 'Medium', label: 'Medium' },
-        { value: 'Hard', label: 'Hard' }
+        { value: 'easy', label: 'Easy' },
+        { value: 'medium', label: 'Medium' },
+        { value: 'hard', label: 'Hard' }
       ];
       
       const options2 = [
-        { value: 'Multiple Choice', label: 'McQ' },
-        { value: 'Short Answer', label: 'Short Answer' },
+        { value: 'multiple choice', label: 'McQ' },
+        { value: 'short answer', label: 'Short Answer' },
         { value: 'True/False', label: 'T/F' },
-        { value: 'Essay', label: 'Essay' },
-        { value: 'Random', label: 'Random' }
+        { value: 'essay', label: 'Essay' },
+        { value: 'random', label: 'Random' }
       ];
       
       const options3 = [
