@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import DropDownList from './DropDownList';
 import Navbar from '../Home/Navbar/Navbar';
 import loader from '../images/loader.gif';
+import { useNavigate } from 'react-router-dom';
 
 
 const ParametersDrop = () => {
@@ -9,6 +10,7 @@ const ParametersDrop = () => {
     const [response, setResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const userMessage = window.localStorage.getItem('userMessage');
+    const navigate = useNavigate();
 
 
     const handleSelect = (name, value) => {
@@ -28,7 +30,7 @@ const ParametersDrop = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleClick = async (e) => {
         e.preventDefault();
         
         console.log(userMessage);
@@ -38,20 +40,21 @@ const ParametersDrop = () => {
                 const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: userMessage}))}`);
                 const data = await serverResponse.json();
                 setResponse(JSON.stringify(data, null, 2));
-                console.log(selectedOptions);
+                console.log(data);
+                navigate('/test');
             } catch (error) {
                 console.error('Error fetching data from server:', error);
             } finally {
                 setIsLoading(false);
             }
-        }, 2000);
+        }, 2000); 
     }
 
     useEffect(() => {
-        console.log(response);
         try {
             const responseObject = JSON.parse(response); 
             window.localStorage.setItem('apiResponse', JSON.stringify(responseObject));
+            console.log(responseObject);
         } catch (error) {
             console.error('Error parsing response:', error);
         }
@@ -95,7 +98,7 @@ const ParametersDrop = () => {
                             <div className='mt-3 flex justify-center items-center'>
                                 <button 
                                     type='button'
-                                    onClick={handleSubmit}
+                                    onClick={handleClick}
                                     className='black_btn mx-auto flex text-lg'>
                                     Generate Test
                                 </button>
