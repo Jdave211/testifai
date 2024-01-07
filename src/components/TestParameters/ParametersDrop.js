@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import DropDownList from './DropDownList';
 import Navbar from '../Home/Navbar/Navbar';
 import loader from '../images/loader.gif';
@@ -28,7 +28,6 @@ const ParametersDrop = () => {
                 const data = await serverResponse.json();
                 setResponse(JSON.stringify(data, null, 2));
                 console.log(selectedOptions);
-                console.log(data);
             } catch (error) {
                 console.error('Error fetching data from server:', error);
             } finally {
@@ -36,6 +35,10 @@ const ParametersDrop = () => {
             }
         }, 3000);
     }
+
+    useEffect(() => {
+        console.log(response);
+    }, [response]);
 
     const options = [
         { value: 'easy', label: 'Easy' },
