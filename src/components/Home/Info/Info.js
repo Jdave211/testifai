@@ -1,7 +1,6 @@
 import React from 'react';
 import ParticlesBg from 'particles-bg';
 import './Info.css';
-import { motion } from 'framer-motion';
 
 const Info = () => {
   return (
@@ -22,7 +21,7 @@ const Info = () => {
           </div>
         </div>
       </div>
-      <ParticlesBg color='#DDA0DD' num={35} className='particles' type="cobweb" bg={true} />
+      <ParticlesBg color='#DDA0DD' num={40} className='particles' type="cobweb" bg={true} />
     </div>
   );
 }
