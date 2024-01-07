@@ -12,10 +12,20 @@ const ParametersDrop = () => {
 
 
     const handleSelect = (name, value) => {
-        setSelectedOptions(prevOptions => ({
-            ...prevOptions,
-            [name]: value
-        }));
+        setSelectedOptions(prevOptions => {
+            const newOptions = {
+                ...prevOptions,
+                [name]: value
+            };
+    
+            try {
+                window.localStorage.setItem('selectedOptions', JSON.stringify(newOptions));
+            } catch (error) {
+                console.error('Error storing selectedOptions in localStorage:', error);
+            }
+    
+            return newOptions;
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -34,12 +44,17 @@ const ParametersDrop = () => {
             } finally {
                 setIsLoading(false);
             }
-        }, 3000);
+        }, 2000);
     }
 
     useEffect(() => {
         console.log(response);
-        window.localStorage.setItem('apiResponse', response);
+        try {
+            const responseObject = JSON.parse(response); 
+            window.localStorage.setItem('apiResponse', JSON.stringify(responseObject));
+        } catch (error) {
+            console.error('Error parsing response:', error);
+        }
     }, [response]);
 
     const options = [
@@ -51,7 +66,7 @@ const ParametersDrop = () => {
       const options2 = [
         { value: 'multiple choice', label: 'McQ' },
         { value: 'short answer', label: 'Short Answer' },
-        { value: 'True/False', label: 'T/F' },
+        { value: 'true/false', label: 'T/F' },
         { value: 'essay', label: 'Essay' }
       ];
       
