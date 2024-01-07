@@ -4,7 +4,7 @@ const TestInfo = () => {
     return (
         <div>
             <div>
-            Welcome to the Test!
+            Welcome to the Test
             Please read the following instructions carefully before proceeding:
 
             {selectedOptions.mcq && "**Test Type: Multiple Choice**\n\nIn this section, you'll encounter multiple-choice questions. Each question has multiple options, and you need to select the correct answer by ticking the appropriate checkboxes.\n"}
