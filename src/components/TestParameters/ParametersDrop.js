@@ -10,6 +10,7 @@ const ParametersDrop = () => {
     const [isLoading, setIsLoading] = useState(false);
     const userMessage = window.localStorage.getItem('userMessage');
 
+
     const handleSelect = (name, value) => {
         setSelectedOptions(prevOptions => ({
             ...prevOptions,
@@ -38,6 +39,7 @@ const ParametersDrop = () => {
 
     useEffect(() => {
         console.log(response);
+        window.localStorage.setItem('apiResponse', response);
     }, [response]);
 
     const options = [
