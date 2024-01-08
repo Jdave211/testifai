@@ -33,15 +33,14 @@ const ParametersDrop = () => {
     const handleClick = async (e) => {
         e.preventDefault();
         
-        console.log(userMessage);
         setIsLoading(true);
         setTimeout(async () => {
             try {
                 const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: userMessage}))}`);
                 const data = await serverResponse.json();
                 setResponse(JSON.stringify(data, null, 2));
-                console.log(data);
-                navigate('/test');
+                navigate('/testinf');
+                window.localStorage.setItem('apiResponse', JSON.stringify(data));
             } catch (error) {
                 console.error('Error fetching data from server:', error);
             } finally {
@@ -50,15 +49,6 @@ const ParametersDrop = () => {
         }, 2000); 
     }
 
-    useEffect(() => {
-        try {
-            const responseObject = JSON.parse(response); 
-            window.localStorage.setItem('apiResponse', JSON.stringify(responseObject));
-            console.log(responseObject);
-        } catch (error) {
-            console.error('Error parsing response:', error);
-        }
-    }, [response]);
 
     const options = [
         { value: 'easy', label: 'Easy' },

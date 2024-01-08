@@ -27,7 +27,6 @@ const KnowledgeBaseForm = () => {
   
       setArticle(newArticle);
       const message = JSON.stringify(newArticle, null, 2);
-      console.log(message);
       setUserMessage(message);
       window.localStorage.setItem('userMessage', message);
       navigate('parameters');

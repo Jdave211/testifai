@@ -4,7 +4,9 @@ import Navbar from './components/Home/Navbar/Navbar';
 import Info from './components/Home/Info/Info';
 import KnowledgeBaseForm from './components/Home/KnowledgeBaseForm/KnowledgeBaseForm';
 import ParametersDrop from './components/TestParameters/ParametersDrop';
+import TestInfo from './components/TestPage/TestInfo';
 import TestPage from './components/TestPage/TestPage';
+import ParticlesBg from 'particles-bg';
 
 function Home() {
   return (
@@ -23,8 +25,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/parameters" element={<ParametersDrop />} />
-          <Route path="/test" element={<TestPage />} />
+          <Route path="/testinf" element={<TestInfo />} />
+          <Route path="/testpg" element={<TestPage />} />
         </Routes>
+        <ParticlesBg color='#DDA0DD' num={40} className='particles' type="cobweb" bg={true} />
       </div>
     </Router> 
   );

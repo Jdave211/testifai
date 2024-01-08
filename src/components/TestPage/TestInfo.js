@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import Navbar from '../Home/Navbar/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 
-const TestInfo = () => {
+const TestInfo = (props) => {
     const [instructions, setInstructions] = useState('');
-    const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
     const selectedOptions = JSON.parse(window.localStorage.getItem('selectedOptions'));
+    const navigate = useNavigate();
     // const subject = apiResponse.questions.test.subject;
 
     const generateInstructions = () => {
-    let generatedInstructions = `Welcome to your Test!\n\n`;
+    let generatedInstructions = '';
 
     if (selectedOptions.quizType === 'multiple choice') {
         generatedInstructions += "In this section, you'll encounter multiple-choice questions. Each question has 4 options, and you need to select the correct answer by ticking the appropriate checkboxes.\n\n";
@@ -36,16 +37,33 @@ const TestInfo = () => {
         generateInstructions();
     }, []);
 
+    const handleButtonClick = () => {
+        navigate('/testpg')
+    }   
+
     return (
         <div>
-            <div>
+            <div className='mx-auto'>
                 <Navbar />
-                <h1>Test</h1>
-                <div>
-                <h2>Instructions:</h2>
-                <div>{instructions}</div>
+                <div className='flex mt-5 '>
+                    <p className='text-5xl font-bold mx-auto text-yellow-600 stud'>Test</p>
                 </div>
-                <button className='black_btn'>Let's Have It!</button>
+                <div className='flex justify-center font-bold mb-2 mt-2 text-4xl underline stud'>
+                    Instructions
+                </div>
+                <div className = 'mt-5'>
+                <p className='flex justify-center underline text-xl mb-5'>
+                    Welcome to your test!
+                </p>
+                <div className='ml-3 mr-3 text-center text-lg'>{instructions}</div>
+                </div>
+                <div className='flex justify-center mt-14'>
+                    <button 
+                    className='black_btn'
+                    onClick={handleButtonClick}>
+                        Let's Have It!
+                    </button>
+                </div>
             </div>
         </div>
     );
