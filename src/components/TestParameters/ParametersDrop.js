@@ -39,6 +39,7 @@ const ParametersDrop = () => {
                 const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: userMessage}))}`);
                 const data = await serverResponse.json();
                 setResponse(JSON.stringify(data, null, 2));
+                console.log(data);
                 navigate('/testinf');
                 window.localStorage.setItem('apiResponse', JSON.stringify(data));
             } catch (error) {
