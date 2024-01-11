@@ -108,7 +108,11 @@ const TestPage = () => {
                     {index !== questions.length - 1 && <hr className='border-t border-gray-200 my-4' />}
                 </div>
             ))}
-            {isSubmitted && <QuestionMarking userAnswers={userResponses} correctAnswers={correctAnswers} />}
+            {isSubmitted && <QuestionMarking 
+                                userResponses={userResponses} 
+                                correctAnswers={correctAnswers} 
+                                selectedOptions={{ quizType: 'multiple choice' }} // Ensure this is defined
+                            />}
             </div>
             <div className='text-right'>
                 <button type='button' className='black_btn mt-16 mb-7 mr-3' onClick={handleSubmitTest}>Submit Test</button>

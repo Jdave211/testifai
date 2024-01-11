@@ -1,11 +1,32 @@
 import React from 'react';
 
-function QuestionMarking({ userAnswers, correctAnswers }) {
+function QuestionMarking({ userResponses, correctAnswers, selectedOptions }) {
+    // Access the correct answers
+    const correctAnswerData = correctAnswers.test.answers;
+
+    // Get the question numbers
+    const questionNumbers = Object.keys(correctAnswerData);
+
     const grade = () => {
+        if (!userResponses || !correctAnswers) {
+            return 0;
+        }
+    
         let score = 0;
     
-        for (let i = 0; i < correctAnswers.length; i++) {
-            if (userAnswers[correctAnswers[i].question_number] === correctAnswers[i].answer) {
+        for (let i = 0; i < questionNumbers.length; i++) {
+            const questionNumber = questionNumbers[i];
+            const correctAnswer = correctAnswerData[questionNumber];
+    
+            console.log(questionNumber);
+    
+            if (selectedOptions.quizType === 'multiple choice' && userResponses[questionNumber] === correctAnswer) {
+                score++;
+            } else if (selectedOptions.quizType === 'true/false' && userResponses[questionNumber] === correctAnswer) {
+                score++;
+            } else if (selectedOptions.quizType === 'short answer' && userResponses[questionNumber] === correctAnswer) {
+                score++;
+            } else if (selectedOptions.quizType === 'essay' && userResponses[questionNumber] === correctAnswer) {
                 score++;
             }
         }
@@ -15,7 +36,11 @@ function QuestionMarking({ userAnswers, correctAnswers }) {
     };
 
     const percentage = () => {
-        return (grade() / correctAnswers.length) * 100;
+        if (grade() === 0) {
+            return 0;
+        } else {
+            return (grade() / questionNumbers.length) * 100;
+        }
     }
     
 
