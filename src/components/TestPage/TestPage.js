@@ -20,7 +20,7 @@ const TestPage = () => {
             userResponse = selectedOption;
         } else if (selectedOptions.quizType === 'true/false') {
             // Map 'true' or 'false' directly
-            userResponse = selectedOption === 'true' ? 'true' : 'false';
+            userResponse = selectedOption === 'True' ? 'True' : 'False';
         } else {
             // For short answer and essay questions, store the answer directly
             userResponse = selectedOption;
@@ -101,8 +101,8 @@ const TestPage = () => {
                             key={i} 
                             className='flex items-center'
                             name={`question${index}`} >
-                            <input type='radio' id={`option${i}`} name={`question${index}`} value={value} onChange={() => handleAnswerSelection(index, i === 0 ? 'true' : 'false')} />
-                            <label htmlFor={`option${i}`} className='ml-2 mb-1'>{key}: {value}</label>
+                            <input type='radio' id={`option${i}`} name={`question${index}`} value={value} onChange={() => handleAnswerSelection(index, i === 0 ? 'True' : 'False')} />
+                            <label htmlFor={`option${i}`} className='ml-2 mb-1'>{value}</label>
                         </div>
                     ))}
                     {index !== questions.length - 1 && <hr className='border-t border-gray-200 my-4' />}

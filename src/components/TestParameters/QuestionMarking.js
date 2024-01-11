@@ -24,7 +24,7 @@ function QuestionMarking({ userResponses, correctAnswers, selectedOptions }) {
                 score++;
             } else if (selectedOptions.quizType === 'true/false' && userResponses[questionNumber] === correctAnswer) {
                 score++;
-            } else if (selectedOptions.quizType === 'short answer' && userResponses[questionNumber] === correctAnswer) {
+            } else if (selectedOptions.quizType === 'short answer') {
                 score++;
             } else if (selectedOptions.quizType === 'essay' && userResponses[questionNumber] === correctAnswer) {
                 score++;
