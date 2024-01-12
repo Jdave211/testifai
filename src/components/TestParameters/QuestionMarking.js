@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 function QuestionMarking({ userResponses, correctAnswers, selectedOptions }) {
     // Access the correct answers
