@@ -1,54 +1,62 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 function QuestionMarking({ userResponses, correctAnswers, selectedOptions }) {
-    // Access the correct answers
     const correctAnswerData = correctAnswers.test.answers;
-
-    // Get the question numbers
     const questionNumbers = Object.keys(correctAnswerData);
+    const [response, setResponse] = useState(null);
+    const [score, setScore] = useState(0);
 
-    const grade = () => {
-        if (!userResponses || !correctAnswers) {
-            return 0;
+    const fetchData = async () => {
+        try {
+            const serverResponse = await fetch('http://localhost:8080/check-user-answers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userResponses: userResponses,
+                    correctAnswers: correctAnswerData,
+                    selectedOptions: selectedOptions,
+                }),
+            });
+            const data = await serverResponse.json();
+            setResponse(JSON.stringify(data, null, 2));
+            console.log(data);
+            window.localStorage.setItem('apiResponse', JSON.stringify(data));
+        } catch (error) {
+            console.error('Error fetching data from server:', error);
         }
-    
-        let score = 0;
-    
-        for (let i = 0; i < questionNumbers.length; i++) {
-            const questionNumber = questionNumbers[i];
-            const correctAnswer = correctAnswerData[questionNumber];
-    
-            console.log(questionNumber);
-    
-            if (selectedOptions.quizType === 'multiple choice' && userResponses[questionNumber] === correctAnswer) {
-                score++;
-            } else if (selectedOptions.quizType === 'true/false' && userResponses[questionNumber] === correctAnswer) {
-                score++;
-            } else if (selectedOptions.quizType === 'short answer') {
-                score++;
-            } else if (selectedOptions.quizType === 'essay' && userResponses[questionNumber] === correctAnswer) {
-                score++;
-            }
-        }
-    
-        console.log(score);
-        return score;
     };
 
+    useEffect(() => {
+        if (selectedOptions.quizType === 'short answer' || selectedOptions.quizType === 'essay') {
+            fetchData();
+        }
+    }, [userResponses, correctAnswerData, selectedOptions]);
+
+    useEffect(() => {
+        questionNumbers.forEach((questionNumber) => {
+            const correctAnswer = correctAnswerData[questionNumber];
+            if ((selectedOptions.quizType === 'multiple choice' || selectedOptions.quizType == 'true/false') && userResponses[questionNumber] === correctAnswer) {
+                setScore(prevScore => prevScore + 1);
+            }
+        });
+        console.log(score);
+    }, [userResponses, correctAnswerData, selectedOptions]);
+
     const percentage = () => {
-        if (grade() === 0) {
+        if (score === 0) {
             return 0;
         } else {
-            return (grade() / questionNumbers.length) * 100;
+            return (score / questionNumbers.length) * 100;
         }
     }
-    
 
     return (
         <div>
             Your score is: {percentage() + '%'}
         </div>
     );
-}
+};
 
 export default QuestionMarking;
