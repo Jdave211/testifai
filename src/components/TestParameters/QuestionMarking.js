@@ -35,13 +35,16 @@ function QuestionMarking({ userResponses, correctAnswers, selectedOptions }) {
     }, [userResponses, correctAnswerData, selectedOptions]);
 
     useEffect(() => {
+        let newScore = 0;
         questionNumbers.forEach((questionNumber) => {
             const correctAnswer = correctAnswerData[questionNumber];
-            if ((selectedOptions.quizType === 'multiple choice' || selectedOptions.quizType == 'true/false') && userResponses[questionNumber] === correctAnswer) {
-                setScore(prevScore => prevScore + 1);
+            console.log(correctAnswer);
+            if ((selectedOptions.quizType === 'multiple choice' || selectedOptions.quizType == 'true/false') && userResponses[questionNumber] === correctAnswer.answer) {
+                newScore += 1;
             }
         });
-        console.log(score);
+        setScore(newScore);
+        console.log(newScore);
     }, [userResponses, correctAnswerData, selectedOptions]);
 
     const percentage = () => {
