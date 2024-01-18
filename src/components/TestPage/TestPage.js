@@ -5,13 +5,24 @@ import { useNavigate } from 'react-router-dom';
 
 const TestPage = () => {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
-    const questions = apiResponse.questions.test.questions;
+    let questions;
     const correctAnswers = apiResponse.answers;
     const selectedParams = JSON.parse(window.localStorage.getItem('selectedOptions'));
     const quizType = selectedParams.quizType;
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [userResponses, setUserResponses] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
+
+    if (apiResponse.questions && Array.isArray(apiResponse.questions)) {
+        // Case: questions directly as an array
+        questions = apiResponse.questions;
+      } else if (apiResponse.questions && apiResponse.questions.test && Array.isArray(apiResponse.questions.test.questions)) {
+        // Case: questions nested inside a "test" object
+        questions = apiResponse.questions.test.questions;
+      } else {
+        // Handle other cases or throw an error if the structure is unexpected
+        console.error('Unexpected API response structure:', apiResponse);
+      }
 
     const handleAnswerSelection = (questionIndex, selectedOption) => {
         let userResponse;

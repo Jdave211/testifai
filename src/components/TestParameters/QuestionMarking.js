@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function QuestionMarking({ userResponses, correctAnswers, selectedOptions }) {
+function QuestionMarking({ userResponses, correctAnswers, quizType }) {
     const correctAnswerData = correctAnswers.test.answers;
     const questionNumbers = Object.keys(correctAnswerData);
     const [response, setResponse] = useState(null);
@@ -16,7 +16,7 @@ function QuestionMarking({ userResponses, correctAnswers, selectedOptions }) {
                 body: JSON.stringify({
                     userResponses: userResponses,
                     correctAnswers: correctAnswerData,
-                    selectedOptions: selectedOptions,
+                    quizType: quizType,
                 }),
             });
             const data = await serverResponse.json();
@@ -29,23 +29,23 @@ function QuestionMarking({ userResponses, correctAnswers, selectedOptions }) {
     };
 
     useEffect(() => {
-        if (selectedOptions.quizType === 'short answer' || selectedOptions.quizType === 'essay') {
+        if (quizType === 'short answer' || quizType === 'essay') {
             fetchData();
         }
-    }, [userResponses, correctAnswerData, selectedOptions]);
+    }, [userResponses, correctAnswerData, quizType]);
 
     useEffect(() => {
         let newScore = 0;
         questionNumbers.forEach((questionNumber) => {
             const correctAnswer = correctAnswerData[questionNumber];
             console.log(correctAnswer);
-            if ((selectedOptions.quizType === 'multiple choice' || selectedOptions.quizType == 'true/false') && userResponses[questionNumber] === correctAnswer.answer) {
+            if ((quizType === 'multiple choice' || quizType == 'true/false') && userResponses[questionNumber] === correctAnswer.answer) {
                 newScore += 1;
             }
         });
         setScore(newScore);
         console.log(newScore);
-    }, [userResponses, correctAnswerData, selectedOptions]);
+    }, [userResponses, correctAnswerData, quizType]);
 
     const percentage = () => {
         if (score === 0) {
