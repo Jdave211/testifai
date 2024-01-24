@@ -1,8 +1,15 @@
 import React from "react";
 
-const Feedback = ({ score, userResponses, correctAnswerData }) => {
-    // You can access score, userResponses, and correctAnswerData here
-    // ...
+function Feedback ({ userResponses, correctAnswerData, questions }) {
+    const questionNumbers = Object.keys(correctAnswerData);
+    const wrongAnswers = {};
+
+    questionNumbers.forEach((questionNumber) => {
+        const correctAnswer = correctAnswerData[questionNumber];
+        if (userResponses[questionNumber] !== correctAnswer.answer) {
+            newScore += 1;
+        }
+    });
 
     return (
         <div>

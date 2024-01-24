@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Feedback from '../Feedback/Feedback';
 
-function QuestionMarking({ userResponses, correctAnswers, quizType }) {
+function QuestionMarking({ userResponses, correctAnswers, quizType, questions }) {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
     const correctAnswerData = correctAnswers.test.answers;
     const questionNumbers = Object.keys(correctAnswerData);
@@ -64,7 +64,8 @@ function QuestionMarking({ userResponses, correctAnswers, quizType }) {
             <Feedback  
                 score={score}
                 userResponses={userResponses}
-                correctAnswerData={correctAnswerData}/>
+                correctAnswerData={correctAnswerData}
+                questions={questions}/>
         </div>
     );
 };

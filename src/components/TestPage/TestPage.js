@@ -125,6 +125,7 @@ const TestPage = () => {
                                 userResponses={userResponses} 
                                 correctAnswers={correctAnswers} 
                                 quizType={quizType}
+                                questions={questions}
                             />}
             </div>
             <div className='text-right'>
