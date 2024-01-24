@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Navbar from '../Home/Navbar/Navbar';
-import QuestionMaring from './QuestionMarking';
+import QuestionMarking from './QuestionMarking';
 import { useNavigate } from 'react-router-dom';
 
 const TestPage = () => {
