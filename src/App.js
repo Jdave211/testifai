@@ -12,10 +12,9 @@ import ParticlesBg from 'particles-bg';
 function Home() {
   return (
     <div>
-      {/* <Navbar />
+      <Navbar />
       <Info />
-      <KnowledgeBaseForm /> */}
-      <ResultPage />
+      <KnowledgeBaseForm />
     </div>
   );
 }
@@ -29,6 +28,7 @@ function App() {
           <Route path="/parameters" element={<ParametersDrop />} />
           <Route path="/testinf" element={<TestInfo />} />
           <Route path="/testpg" element={<TestPage />} />
+          <Route path="/resultpg" element={<ResultPage />} />
         </Routes>
         <ParticlesBg color='#DDA0DD' num={40} className='particles' type="cobweb" bg={true} />
       </div>

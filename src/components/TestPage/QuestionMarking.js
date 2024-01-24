@@ -61,10 +61,10 @@ function QuestionMarking({ userResponses, correctAnswers, quizType, questions })
     return (
         <div>
             Your score is: {percentage() + '%'}
-            <Feedback  
-                score={score}
+            <Feedback 
                 userResponses={userResponses}
                 correctAnswerData={correctAnswerData}
+                questionNumbers={questionNumbers}
                 questions={questions}/>
         </div>
     );

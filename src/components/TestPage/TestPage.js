@@ -13,6 +13,7 @@ const TestPage = () => {
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [userResponses, setUserResponses] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const navigate = useNavigate();
 
     if (apiResponse.questions && Array.isArray(apiResponse.questions)) {
         // Case: questions directly as an array
@@ -71,6 +72,8 @@ const TestPage = () => {
         
         setUserResponses(userResponses);
         setIsSubmitted(true);
+
+        navigate('/resultpg');
     };
     
 
