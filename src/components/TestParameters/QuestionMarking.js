@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 function QuestionMarking({ userResponses, correctAnswers, quizType }) {
+    const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
     const correctAnswerData = correctAnswers.test.answers;
     const questionNumbers = Object.keys(correctAnswerData);
     const [response, setResponse] = useState(null);
@@ -17,6 +18,7 @@ function QuestionMarking({ userResponses, correctAnswers, quizType }) {
                     userResponses: userResponses,
                     correctAnswers: correctAnswerData,
                     quizType: quizType,
+                    generatedQuestions: apiResponse.questions,
                 }),
             });
             const data = await serverResponse.json();

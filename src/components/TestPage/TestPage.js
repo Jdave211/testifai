@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const TestPage = () => {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
+    console.log(apiResponse);
     let questions;
     const correctAnswers = apiResponse.answers;
     const selectedParams = JSON.parse(window.localStorage.getItem('selectedOptions'));
@@ -19,6 +20,8 @@ const TestPage = () => {
       } else if (apiResponse.questions && apiResponse.questions.test && Array.isArray(apiResponse.questions.test.questions)) {
         // Case: questions nested inside a "test" object
         questions = apiResponse.questions.test.questions;
+      } else if (apiResponse.questions && Array.isArray(apiResponse.questions.questions)) {
+        questions = apiResponse.questions.questions;
       } else {
         // Handle other cases or throw an error if the structure is unexpected
         console.error('Unexpected API response structure:', apiResponse);
@@ -70,8 +73,6 @@ const TestPage = () => {
         setIsSubmitted(true);
     };
     
-    
-    
 
     return (
         <div>
@@ -80,7 +81,7 @@ const TestPage = () => {
                 Test
             </div>
             <div className='questions mt-7 ml-4'>
-                {questions.map((question, index) => (
+                {questions && questions.map((question, index) => (
                 <div key={index} className ='mb-7 mt-12'>
                     <p className='text-lg font-semibold'>{index + 1}. {question.question}</p>
                     {quizType === 'multiple choice' && question.options && typeof question.options === 'object' && Object.entries(question.options).map(([key, value], i) => (
