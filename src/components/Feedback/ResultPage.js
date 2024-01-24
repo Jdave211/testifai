@@ -8,7 +8,6 @@ const ResultPage = () => {
             <Navbar />
             <div>
                 <h1>Result Page</h1>
-                <Feedback />
             </div>
         </div>
     );

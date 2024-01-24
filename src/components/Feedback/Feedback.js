@@ -4,18 +4,20 @@ function Feedback ({ userResponses, correctAnswerData, questionNumbers, question
     const wrongAnswers = {};
     const responseDetails = [];
 
-    questionNumbers.forEach((questionNumber) => {
-        const correctAnswer = correctAnswerData[questionNumber];
-        const question = questions[questionNumber - 1].question;
-        if (userResponses[questionNumber] !== correctAnswer.answer) {
-            responseDetails.push({
-                questionNumber: questionNumber,
-                question: question,
-                userResponse: userResponses[questionNumber],
-                correctAnswer: correctAnswer.answer,
-            });
-        }
-    });
+    console.log(questionNumbers);
+
+    // questionNumbers.forEach((questionNumber) => {
+    //     const correctAnswer = correctAnswerData[questionNumber];
+    //     const question = questions[questionNumber - 1].question;
+    //     if (userResponses[questionNumber] !== correctAnswer.answer) {
+    //         responseDetails.push({
+    //             questionNumber: questionNumber,
+    //             question: question,
+    //             userResponse: userResponses[questionNumber],
+    //             correctAnswer: correctAnswer.answer,
+    //         });
+    //     }
+    // });
 
     return (
         <div>
