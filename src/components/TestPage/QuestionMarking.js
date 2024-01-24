@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Feedback from '../Feedback/Feedback';
 
 function QuestionMarking({ userResponses, correctAnswers, quizType }) {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
@@ -60,6 +61,10 @@ function QuestionMarking({ userResponses, correctAnswers, quizType }) {
     return (
         <div>
             Your score is: {percentage() + '%'}
+            <Feedback  
+                score={score}
+                userResponses={userResponses}
+                correctAnswerData={correctAnswerData}/>
         </div>
     );
 };
