@@ -53,7 +53,7 @@ function QuestionMarking({ userResponses, correctAnswers, quizType }) {
         if (score === 0) {
             return 0;
         } else {
-            return (score / questionNumbers.length) * 100;
+            return ((score / questionNumbers.length) * 100).toFixed(0);
         }
     }
 
