@@ -51,21 +51,14 @@ function QuestionMarking({ userResponses, correctAnswers, quizType, questions })
         });
         setScore(newScore);
         setWrongQuestionNumbers(newWrongQuestionNumbers);
-        console.log(score)
-        console.log(wrongQuestionNumbers)
+    
+        const percentageGrade = ((newScore / questionNumbers.length) * 100).toFixed(0);
+        localStorage.setItem('percentageGrade', percentageGrade);
     }, [userResponses, correctAnswerData, quizType]);
-
-    const percentage = () => {
-        if (score === 0) {
-            return 0;
-        } else {
-            return ((score / questionNumbers.length) * 100).toFixed(0);
-        }
-    }
 
     return (
         <div>
-            Your score is: {percentage() + '%'}
+            Your score is: {'%'}
         </div>
     );
 };

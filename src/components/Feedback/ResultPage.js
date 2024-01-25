@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../Home/Navbar/Navbar';
+import ScoreCircle from './ScoreCircle';
 
 const ResultPage = () => {
     return (
@@ -7,6 +8,7 @@ const ResultPage = () => {
             <Navbar />
             <div>
                 <h1>Result Page</h1>
+                <ScoreCircle /> 
             </div>
         </div>
     );

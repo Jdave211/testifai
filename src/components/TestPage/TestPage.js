@@ -77,7 +77,7 @@ const TestPage = () => {
         setUserResponses(userResponses);
         setIsSubmitted(true);
 
-        // navigate('/resultpg');
+        navigate('/resultpg');
     };
     
 
@@ -143,5 +143,3 @@ const TestPage = () => {
 }
 
 export default TestPage;
-
-const questionType = JSON.parse(window.localStorage.getItem('selectedOptions'));
