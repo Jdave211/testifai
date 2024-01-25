@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Feedback from '../Feedback/Feedback';
 
 function QuestionMarking({ userResponses, correctAnswers, quizType, questions }) {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
@@ -7,6 +6,7 @@ function QuestionMarking({ userResponses, correctAnswers, quizType, questions })
     const questionNumbers = Object.keys(correctAnswerData);
     const [response, setResponse] = useState(null);
     const [score, setScore] = useState(0);
+    const [wrongQuestionNumbers, setWrongQuestionNumbers] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -39,15 +39,20 @@ function QuestionMarking({ userResponses, correctAnswers, quizType, questions })
 
     useEffect(() => {
         let newScore = 0;
+        let newWrongQuestionNumbers = [];
         questionNumbers.forEach((questionNumber) => {
             const correctAnswer = correctAnswerData[questionNumber];
-            console.log(correctAnswer);
             if ((quizType === 'multiple choice' || quizType == 'true/false') && userResponses[questionNumber] === correctAnswer.answer) {
                 newScore += 1;
             }
+            else if (userResponses[questionNumber] !== correctAnswer.answer) {
+                newWrongQuestionNumbers.push(questionNumber);
+            }
         });
         setScore(newScore);
-        console.log(newScore);
+        setWrongQuestionNumbers(newWrongQuestionNumbers);
+        console.log(score)
+        console.log(wrongQuestionNumbers)
     }, [userResponses, correctAnswerData, quizType]);
 
     const percentage = () => {
@@ -61,11 +66,6 @@ function QuestionMarking({ userResponses, correctAnswers, quizType, questions })
     return (
         <div>
             Your score is: {percentage() + '%'}
-            <Feedback 
-                userResponses={userResponses}
-                correctAnswerData={correctAnswerData}
-                questionNumbers={questionNumbers}
-                questions={questions}/>
         </div>
     );
 };

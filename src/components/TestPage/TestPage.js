@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 const TestPage = () => {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
     console.log(apiResponse);
-    let questions;
     const correctAnswers = apiResponse.answers;
     const selectedParams = JSON.parse(window.localStorage.getItem('selectedOptions'));
     const quizType = selectedParams.quizType;
@@ -15,18 +14,23 @@ const TestPage = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const navigate = useNavigate();
 
-    if (apiResponse.questions && Array.isArray(apiResponse.questions)) {
-        // Case: questions directly as an array
-        questions = apiResponse.questions;
-      } else if (apiResponse.questions && apiResponse.questions.test && Array.isArray(apiResponse.questions.test.questions)) {
-        // Case: questions nested inside a "test" object
-        questions = apiResponse.questions.test.questions;
-      } else if (apiResponse.questions && Array.isArray(apiResponse.questions.questions)) {
-        questions = apiResponse.questions.questions;
-      } else {
-        // Handle other cases or throw an error if the structure is unexpected
-        console.error('Unexpected API response structure:', apiResponse);
-      }
+    function findArrayInObject(obj) {
+        for (let key in obj) {
+            if (Array.isArray(obj[key])) {
+                return obj[key];
+            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                let foundArray = findArrayInObject(obj[key]);
+                if (foundArray) {
+                    return foundArray;
+                }
+            }
+        }
+        return null;
+    }
+
+    const questions = findArrayInObject(apiResponse);
+    console.log(questions[0]);
+
 
     const handleAnswerSelection = (questionIndex, selectedOption) => {
         let userResponse;
@@ -73,7 +77,7 @@ const TestPage = () => {
         setUserResponses(userResponses);
         setIsSubmitted(true);
 
-        navigate('/resultpg');
+        // navigate('/resultpg');
     };
     
 

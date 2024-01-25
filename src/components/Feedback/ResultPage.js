@@ -1,6 +1,5 @@
 import React from 'react';
 import Navbar from '../Home/Navbar/Navbar';
-import Feedback from './Feedback';
 
 const ResultPage = () => {
     return (
