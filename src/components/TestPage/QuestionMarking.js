@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function QuestionMarking({ userResponses, correctAnswers, quizType, questions }) {
+function QuestionMarking({ userResponses, correctAnswers, quizType, onMarkingDone }) {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
     const correctAnswerData = correctAnswers.test.answers;
     const questionNumbers = Object.keys(correctAnswerData);
@@ -54,6 +54,7 @@ function QuestionMarking({ userResponses, correctAnswers, quizType, questions })
     
         const percentageGrade = ((newScore / questionNumbers.length) * 100).toFixed(0);
         localStorage.setItem('percentageGrade', percentageGrade);
+        onMarkingDone();
     }, [userResponses, correctAnswerData, quizType]);
 
     return (

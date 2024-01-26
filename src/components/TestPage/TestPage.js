@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Navbar from '../Home/Navbar/Navbar';
 import QuestionMarking from './QuestionMarking';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,7 @@ const TestPage = () => {
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [userResponses, setUserResponses] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isMarkingDone, setIsMarkingDone] = useState(false);
     const navigate = useNavigate();
 
     function findArrayInObject(obj) {
@@ -76,9 +77,13 @@ const TestPage = () => {
         
         setUserResponses(userResponses);
         setIsSubmitted(true);
-
-        navigate('/resultpg');
     };
+
+    useEffect(() => {
+        if (isSubmitted && isMarkingDone) {
+            navigate('/resultpg');
+        }
+    }, [isSubmitted, isMarkingDone]);
     
 
     return (
@@ -133,6 +138,7 @@ const TestPage = () => {
                                 correctAnswers={correctAnswers} 
                                 quizType={quizType}
                                 questions={questions}
+                                onMarkingDone={() => setIsMarkingDone(true)}
                             />}
             </div>
             <div className='text-right'>
