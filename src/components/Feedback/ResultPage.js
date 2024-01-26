@@ -17,7 +17,7 @@ const ResultPage = () => {
                 </div>
                 <div className='flex justify-between'>
                     <button className='black_btn'>Restart Test</button>
-                    <button className='black_btn'>Change Test Parameters</button>
+                    <button className='white_btn'>Change Test Parameters</button>
                     <button className='black_btn'>New Test</button>
                 </div>
             </div>

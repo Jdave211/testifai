@@ -35,7 +35,7 @@ code {
 }
 
 .white_btn {
-  @apply rounded-full border border-white bg-white py-1.5 px-5 text-sm text-black transition-all hover:bg-black hover:text-white;
+  @apply rounded-full border border-white bg-white py-1.5 px-5 text-black transition-all hover:bg-black hover:text-white;
 }
 
 .bg-conic-gradient {

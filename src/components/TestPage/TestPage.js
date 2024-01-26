@@ -30,6 +30,7 @@ const TestPage = () => {
     }
 
     const questions = findArrayInObject(apiResponse);
+    // questions = [questions]
     console.log(questions[0]);
 
 
