@@ -24,13 +24,15 @@ const TestPage = () => {
                 if (foundArray) {
                     return foundArray;
                 }
+            } else{
+                return [obj]
             }
         }
         return null;
     }
 
-    const questions = findArrayInObject(apiResponse);
-    console.log(questions[0]);
+    const questions = findArrayInObject(apiResponse.questions);
+    console.log(questions);
 
 
     const handleAnswerSelection = (questionIndex, selectedOption) => {
