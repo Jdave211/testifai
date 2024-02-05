@@ -92,7 +92,7 @@ const TestPage = () => {
         <div>
             <Navbar />
             <div>
-                Test
+                Tests
             </div>
             <div className='questions mt-7 ml-4'>
                 {questions && questions.map((question, index) => (
