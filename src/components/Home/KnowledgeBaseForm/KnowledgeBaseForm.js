@@ -2,13 +2,40 @@ import React, { useState } from 'react';
 import formIcon from '../../images/form.png';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
+import { extractTextFromPDF } from './pdfUtils';
 
 const KnowledgeBaseForm = () => {
   const [url, setUrl] = useState('');
   const [article, setArticle] = useState({});
   const [userMessage, setUserMessage] = useState('');
+  const [urlType, setUrlType] = useState('');
   const [getArticle, { error }] = useLazyGetArticlesQuery();
   const navigate = useNavigate();
+
+  async function checkURLType(url) {
+    if (url.toLowerCase().endsWith('.pdf')) {
+        setUrlType('pdf');
+    }
+    
+    try {
+        const response = await fetch(url, { method: 'HEAD' });
+        const contentType = response.headers.get('Content-Type');
+        if (contentType && contentType.toLowerCase().startsWith('application/pdf')) {
+            setUrlType('pdf');
+        }
+        
+        const htmlResponse = await fetch(url);
+        const htmlText = await htmlResponse.text();
+        if (htmlText.toLowerCase().includes('.pdf')) {
+            setUrlType('article');
+        }
+    } catch (error) {
+        console.error('Error checking URL type:', error);
+    }
+    
+    // If none of the checks indicate a PDF, assume it's a regular article
+    return 'article';
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +59,8 @@ const KnowledgeBaseForm = () => {
       navigate('parameters');
     }
   };
+
+
   
 
   return (
