@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import formIcon from '../../images/form.png';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
-import { extractTextFromPDF } from './pdfUtils';
 
 const KnowledgeBaseForm = () => {
   const [url, setUrl] = useState('');
   const [article, setArticle] = useState({});
   const [knowledgeBase, setKnowledgeBase] = useState('');
-  const [urlType, setUrlType] = useState('');
+  const [urlType, setUrlType] = useState('article');
   const [getArticle, { error }] = useLazyGetArticlesQuery();
   const navigate = useNavigate();
 
@@ -43,12 +42,7 @@ const handlePDFSubmit = async (e) => {
 
 const handleArticleSubmit = async (e) => {
     e.preventDefault();
-}
 
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
     const { data } = await getArticle({ articleUrl: encodeURIComponent(url) });
   
     if (data?.data?.content) {
@@ -60,14 +54,26 @@ const handleArticleSubmit = async (e) => {
       }
   
       const newArticle = { ...article, article: removeHtmlTags(JSON.stringify({ articleContent }, null, 2)) };
-  
       setArticle(newArticle);
       const message = JSON.stringify(newArticle, null, 2);
-      setUserMessage(message);
+      setKnowledgeBase(message);
+      console.log(message);
       window.localStorage.setItem('userMessage', message);
-      navigate('parameters');
+}
+};
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    checkURLType(url);
+  
+    if (urlType === 'pdf') {
+      handlePDFSubmit(e);
+    } else if (urlType === 'article') {
+      handleArticleSubmit(e);
     }
-  };
+      navigate('parameters');
+    };
 
 
   
