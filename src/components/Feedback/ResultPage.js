@@ -4,7 +4,7 @@ import ScoreCircle from './ScoreCircle';
 import Remark from './Remark';
 
 const ResultPage = () => {
-    const percentageGrade = JSON.parse(window.localStorage.getItem('percenageGrade'));
+    const percentageGrade = JSON.parse(window.localStorage.getItem('percentageGrade'));
     return (
         <div>
             <Navbar />
