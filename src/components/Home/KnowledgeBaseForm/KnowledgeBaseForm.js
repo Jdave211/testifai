@@ -6,7 +6,7 @@ import { extractTextFromPDF } from './pdfUtils';
 
 const KnowledgeBaseForm = () => {
   const [url, setUrl] = useState('');
-  const [article, setArticle] = useState({});
+  const [knowledgeBase, setKnowledgeBase] = useState({});
   const [userMessage, setUserMessage] = useState('');
   const [urlType, setUrlType] = useState('');
   const [getArticle, { error }] = useLazyGetArticlesQuery();
@@ -27,15 +27,24 @@ const KnowledgeBaseForm = () => {
         const htmlResponse = await fetch(url);
         const htmlText = await htmlResponse.text();
         if (htmlText.toLowerCase().includes('.pdf')) {
-            setUrlType('article');
+            setUrlType('pdf');
         }
     } catch (error) {
         console.error('Error checking URL type:', error);
     }
     
     // If none of the checks indicate a PDF, assume it's a regular article
-    return 'article';
+    setUrlType('article');
 }
+
+const handlePDFSubmit = async (e) => {
+    e.preventDefault();
+}
+
+const handleArticleSubmit = async (e) => {
+    e.preventDefault();
+}
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
