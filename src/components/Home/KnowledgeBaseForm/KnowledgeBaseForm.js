@@ -6,8 +6,8 @@ import { extractTextFromPDF } from './pdfUtils';
 
 const KnowledgeBaseForm = () => {
   const [url, setUrl] = useState('');
-  const [knowledgeBase, setKnowledgeBase] = useState({});
-  const [userMessage, setUserMessage] = useState('');
+  const [article, setArticle] = useState({});
+  const [knowledgeBase, setKnowledgeBase] = useState('');
   const [urlType, setUrlType] = useState('');
   const [getArticle, { error }] = useLazyGetArticlesQuery();
   const navigate = useNavigate();
