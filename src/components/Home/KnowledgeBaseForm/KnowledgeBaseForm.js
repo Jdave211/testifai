@@ -14,28 +14,12 @@ const KnowledgeBaseForm = () => {
   const navigate = useNavigate();
 
   async function checkURLType(url) {
-    if (url.toLowerCase().endsWith('.pdf')) {
+    if (url.toLowerCase().endsWith('.pdf') || url.toLowerCase().includes('.pdf')) {
         setUrlType('pdf');
     }
-    
-    try {
-        const response = await fetch(url, { method: 'HEAD' });
-        const contentType = response.headers.get('Content-Type');
-        if (contentType && contentType.toLowerCase().startsWith('application/pdf')) {
-            setUrlType('pdf');
-        }
-        
-        const htmlResponse = await fetch(url);
-        const htmlText = await htmlResponse.text();
-        if (htmlText.toLowerCase().includes('.pdf')) {
-            setUrlType('pdf');
-        }
-    } catch (error) {
-        console.error('Error checking URL type:', error);
-    }
-    
-    // If none of the checks indicate a PDF, assume it's a regular article
-    setUrlType('article');
+    else {setUrlType('article');}
+
+    console.log(urlType);
 }
 
 const handleFileSelect = async (file) => {
