@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import formIcon from '../../images/form.png';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
+import { extractTextFromPDF } from './pdfUtils';
 
 const KnowledgeBaseForm = () => {
   const [url, setUrl] = useState('');
   const [article, setArticle] = useState({});
   const [knowledgeBase, setKnowledgeBase] = useState('');
   const [urlType, setUrlType] = useState('');
+  const [text, setText] = useState('');
   const [getArticle, { error }] = useLazyGetArticlesQuery();
   const navigate = useNavigate();
 
@@ -36,9 +38,21 @@ const KnowledgeBaseForm = () => {
     setUrlType('article');
 }
 
-const handlePDFSubmit = async (e) => {
-    e.preventDefault();
-}
+const handleFileSelect = async (file) => {
+  const extractedText = await extractTextFromPDF(file);
+  setText(extractedText);
+};
+
+const handlePDFSubmit = async () => {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const file = new File([blob], 'pdf_from_url.pdf');
+    handleFileSelect(file);
+  } catch (error) {
+    console.error('Error fetching PDF from URL:', error);
+  }
+};
 
 const handleArticleSubmit = async (e) => {
     e.preventDefault();
