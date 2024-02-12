@@ -13,14 +13,13 @@ const KnowledgeBaseForm = () => {
   const [getArticle, { error }] = useLazyGetArticlesQuery();
   const navigate = useNavigate();
 
-  async function checkURLType(url) {
+  function checkURLType(url) {
     if (url.toLowerCase().endsWith('.pdf') || url.toLowerCase().includes('.pdf')) {
-        setUrlType('pdf');
+      return 'pdf';
+    } else {
+      return 'article';
     }
-    else {setUrlType('article');}
-
-    console.log(urlType);
-}
+  }
 
 const handleFileSelect = async (file) => {
   const extractedText = await extractTextFromPDF(file);
@@ -61,17 +60,17 @@ const handleArticleSubmit = async (e) => {
 };
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    checkURLType(url);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const currentUrlType = checkURLType(url);
   
-    if (urlType === 'pdf') {
-      handlePDFSubmit(e);
-    } else if (urlType === 'article') {
-      handleArticleSubmit(e);
-    }
-      navigate('parameters');
-    };
+  if (currentUrlType === 'pdf') {
+    handlePDFSubmit(e);
+  } else if (currentUrlType === 'article') {
+    handleArticleSubmit(e);
+  }
+  navigate('parameters');
+};
 
 
   
