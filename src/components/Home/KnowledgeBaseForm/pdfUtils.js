@@ -1,4 +1,4 @@
-import pdfjs from 'pdfjs-dist';
+import { getDocument } from 'pdfjs-dist/build/pdf';
 
 export async function extractTextFromPDF(file) {
   const reader = new FileReader();
@@ -6,7 +6,7 @@ export async function extractTextFromPDF(file) {
   const pdf = await new Promise((resolve, reject) => {
     reader.onload = (event) => {
       const typedArray = new Uint8Array(event.target.result);
-      pdfjs.getDocument(typedArray).promise.then(resolve, reject);
+      getDocument(typedArray).promise.then(resolve, reject);
     };
   });
   const text = [];

@@ -24,7 +24,12 @@ const KnowledgeBaseForm = () => {
   };
 
   const handleURLSubmit = async () => {
-    // Handle URL input here
+    try {
+      const result = await getArticle({ url: input });
+      setArticle(result.data);
+    } catch (error) {
+      console.error('Failed to fetch article:', error);
+    }
   };
 
   const handleTextSubmit = async () => {
