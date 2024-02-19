@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import formIcon from '../../images/form.png';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
@@ -17,7 +17,9 @@ const KnowledgeBaseForm = () => {
 
   const handlePDFExtract = async (file) => {
     const extractedText = await extractTextFromPDF(file);
-    setText(extractedText);
+    const cleanText = extractedText.replace(/(\r\n|\n|\r)/gm, " ");
+  
+    setKnowledgeBase(cleanText);
   };
 
   const handleURLSubmit = async (e) => {
@@ -36,26 +38,21 @@ const KnowledgeBaseForm = () => {
   else {
     const { data } = (await getArticle({articleUrl: input})).data;
     const content = data.content
-    console.log(content);
   
     if (data?.content) {
     const parser = new DOMParser();
     const dom = parser.parseFromString(content, 'text/html');
     const articleWithoutHtmlTags = dom.body.textContent || "";
     const newArticle= { ...article, article: articleWithoutHtmlTags };
+    console.log(articleWithoutHtmlTags)
     setArticle(newArticle);
-    console.log(newArticle);
     setKnowledgeBase(articleWithoutHtmlTags);
+    console.log(knowledgeBase);
     }
     else {
       console.error('Error fetching article:', error);
     }
   }
-  }
-
-  const handlePDFSubmit = async (e) => {
-    e.preventDefault();
-    // Handle PDF input here
   };
 
   const handleTextSubmit = async (e) => {
@@ -63,21 +60,13 @@ const KnowledgeBaseForm = () => {
 
     const plainText = String(input)
 
-    console.log(plainText);
-    setKnowledgeBase(input);
-  };
-
-  const handleFileSubmit = async (e) => {
-    e.preventDefault();
-    // Handle PDF input here
+    setKnowledgeBase(plainText);
   };
 
   const handleFileSelect = async (event) => {
     const file = event.target.files[0];
     if (file.type === 'application/pdf') {
-      let extractedText = await extractTextFromPDF(file);
-      setInput(extractedText);
-      console.log(extractedText);
+      handlePDFExtract(file);
     } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
       // Handle Word document input here
     } else {
@@ -91,11 +80,14 @@ const KnowledgeBaseForm = () => {
       handleURLSubmit(e);
     } else if (inputType === 'text') {
       handleTextSubmit(e);
-    } else if (inputType === 'file') {
-      handleFileSubmit(e);
     }
+    
     // navigate('parameters');
   };
+
+  useEffect(() => {
+    console.log(knowledgeBase);
+  }, [knowledgeBase]);
 
   return (
     <div className='flex mt-20 justify-center mb-20'>

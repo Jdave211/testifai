@@ -1,7 +1,7 @@
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/build/pdf';
 import { pdfjsWorker } from 'pdfjs-dist';
 
-GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
+GlobalWorkerOptions.workerSrc = '/pdf.worker.mjs';
 
 
 export async function extractTextFromPDF(file) {
