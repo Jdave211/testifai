@@ -53,6 +53,7 @@ const KnowledgeBaseForm = () => {
       console.error('Error fetching article:', error);
     }
   }
+  window.localStorage.setItem('selectedOptions', JSON.stringify(newOptions));
   };
 
   const handleTextSubmit = async (e) => {
