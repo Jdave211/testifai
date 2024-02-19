@@ -7,9 +7,12 @@ import { extractTextFromPDF } from './pdfUtils';
 const KnowledgeBaseForm = () => {
   const [input, setInput] = useState('');
   const [inputType, setInputType] = useState('url');
-  const [article, setArticle] = useState({});
+  const [article, setArticle] = useState({
+    url: '',
+    article:''
+  });
+  const [getArticle, { error, isFetching }] = useLazyGetArticlesQuery();
   const [knowledgeBase, setKnowledgeBase] = useState('');
-  const [getArticle, { error }] = useLazyGetArticlesQuery();
   const navigate = useNavigate();
 
   const handleFileSelect = async (event) => {
@@ -23,14 +26,18 @@ const KnowledgeBaseForm = () => {
     }
   };
 
-  const handleURLSubmit = async () => {
-    try {
-      const result = await getArticle({ url: input });
-      setArticle(result.data);
-    } catch (error) {
-      console.error('Failed to fetch article:', error);
+
+  const handleURLSubmit = async (e) => {
+    e.preventDefault();
+  
+    const { data } = await getArticle({articleUrl: input});
+  
+    if (data?.article) {
+      const newArticle= { ...article, article: data.article };
+      setArticle(newArticle);
+      console.log(newArticle);
     }
-  };
+  }
 
   const handleTextSubmit = async () => {
     // Handle plain text input here
@@ -39,13 +46,13 @@ const KnowledgeBaseForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputType === 'url') {
-      handleURLSubmit();
+      handleURLSubmit(e);
     } else if (inputType === 'text') {
-      handleTextSubmit();
+      handleTextSubmit(e);
     } else if (inputType === 'pdf') {
       // Handle PDF input here
     }
-    navigate('parameters');
+    // navigate('parameters');
   };
 
   return (
