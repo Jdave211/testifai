@@ -15,6 +15,48 @@ const KnowledgeBaseForm = () => {
   const [knowledgeBase, setKnowledgeBase] = useState('');
   const navigate = useNavigate();
 
+
+
+  const handleURLSubmit = async (e) => {
+    e.preventDefault(); 
+  
+    const { data } = (await getArticle({articleUrl: input})).data;
+    const content = data.content
+    console.log(content);
+  
+    if (data?.content) {
+    const parser = new DOMParser();
+    const dom = parser.parseFromString(content, 'text/html');
+    const articleWithoutHtmlTags = dom.body.textContent || "";
+    const newArticle= { ...article, article: articleWithoutHtmlTags };
+    setArticle(newArticle);
+    console.log(newArticle);
+    setKnowledgeBase(articleWithoutHtmlTags);
+    }
+    else {
+      console.error('Error fetching article:', error);
+    }
+  }
+
+  const handlePDFSubmit = async (e) => {
+    e.preventDefault();
+    // Handle PDF input here
+  };
+
+  const handleTextSubmit = async (e) => {
+    e.preventDefault();
+
+    const plainText = String(input)
+
+    console.log(plainText);
+    setKnowledgeBase(input);
+  };
+
+  const handleFileSubmit = async (e) => {
+    e.preventDefault();
+    // Handle PDF input here
+  };
+
   const handleFileSelect = async (event) => {
     const file = event.target.files[0];
     if (file.type === 'application/pdf') {
@@ -26,31 +68,14 @@ const KnowledgeBaseForm = () => {
     }
   };
 
-
-  const handleURLSubmit = async (e) => {
-    e.preventDefault();
-  
-    const { data } = await getArticle({articleUrl: input});
-  
-    if (data?.article) {
-      const newArticle= { ...article, article: data.article };
-      setArticle(newArticle);
-      console.log(newArticle);
-    }
-  }
-
-  const handleTextSubmit = async () => {
-    // Handle plain text input here
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputType === 'url') {
       handleURLSubmit(e);
     } else if (inputType === 'text') {
       handleTextSubmit(e);
-    } else if (inputType === 'pdf') {
-      // Handle PDF input here
+    } else if (inputType === 'file') {
+      handleFileSubmit(e);
     }
     // navigate('parameters');
   };
@@ -61,7 +86,7 @@ const KnowledgeBaseForm = () => {
         <div className='flex justify-around mb-4'>
           <button onClick={() => setInputType('url')}>URL</button>
           <button onClick={() => setInputType('text')}>Plain Text</button>
-          <button onClick={() => setInputType('pdf')}>Local PDF</button>
+          <button onClick={() => setInputType('file')}>Local Document</button>
         </div>
         <form className='relative flex flex-col items-center' onSubmit={handleSubmit}>
           {inputType === 'url' && (
@@ -83,7 +108,7 @@ const KnowledgeBaseForm = () => {
               className='input pl-10 w-full'
             />
           )}
-          {inputType === 'pdf' && (
+          {inputType === 'file' && (
             <input
               type='file'
               accept='application/pdf'
