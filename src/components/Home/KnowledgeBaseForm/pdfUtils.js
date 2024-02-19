@@ -1,4 +1,8 @@
-import { getDocument } from 'pdfjs-dist/build/pdf';
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/build/pdf';
+import { pdfjsWorker } from 'pdfjs-dist';
+
+GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
+
 
 export async function extractTextFromPDF(file) {
   const reader = new FileReader();

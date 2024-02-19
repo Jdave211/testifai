@@ -15,11 +15,25 @@ const KnowledgeBaseForm = () => {
   const [knowledgeBase, setKnowledgeBase] = useState('');
   const navigate = useNavigate();
 
-
+  const handlePDFExtract = async (file) => {
+    const extractedText = await extractTextFromPDF(file);
+    setText(extractedText);
+  };
 
   const handleURLSubmit = async (e) => {
     e.preventDefault(); 
-  
+
+    if (input.toLowerCase().endsWith('.pdf')) {
+      try {
+        const response = await fetch(input);
+        const blob = await response.blob();
+        const file = new File([blob], 'pdf_from_url.pdf');
+        handlePDFExtract(file);
+      } catch (error) {
+        console.error('Error fetching PDF from URL:', error);
+      }
+  }
+  else {
     const { data } = (await getArticle({articleUrl: input})).data;
     const content = data.content
     console.log(content);
@@ -36,6 +50,7 @@ const KnowledgeBaseForm = () => {
     else {
       console.error('Error fetching article:', error);
     }
+  }
   }
 
   const handlePDFSubmit = async (e) => {
@@ -63,8 +78,10 @@ const KnowledgeBaseForm = () => {
       let extractedText = await extractTextFromPDF(file);
       setInput(extractedText);
       console.log(extractedText);
+    } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      // Handle Word document input here
     } else {
-      console.error('File is not a PDF:', file);
+      console.error('File is not a PDF or Word document:', file);
     }
   };
 
@@ -111,7 +128,7 @@ const KnowledgeBaseForm = () => {
           {inputType === 'file' && (
             <input
               type='file'
-              accept='application/pdf'
+              accept='application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document'
               onChange={handleFileSelect}
               className='input pl-10 w-full'
             />
