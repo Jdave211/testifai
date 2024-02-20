@@ -10,7 +10,6 @@ const ParametersDrop = () => {
     const [response, setResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const knowledgeBase = window.localStorage.getItem('knowledgeBase');
-    console.log(knowledgeBase); 
     const navigate = useNavigate();
 
 

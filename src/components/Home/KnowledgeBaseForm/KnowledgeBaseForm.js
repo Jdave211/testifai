@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import formIcon from '../../images/form.png';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
 import { extractTextFromPDF } from './pdfUtils';
@@ -7,88 +6,112 @@ import { extractTextFromPDF } from './pdfUtils';
 const KnowledgeBaseForm = () => {
   const [input, setInput] = useState('');
   const [inputType, setInputType] = useState('url');
-  const [article, setArticle] = useState({
-    url: '',
-    article:''
-  });
-  const [getArticle, { error, isFetching }] = useLazyGetArticlesQuery();
+  const [getArticle, { error }] = useLazyGetArticlesQuery();
   const [knowledgeBase, setKnowledgeBase] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handlePDFExtract = async (file) => {
-    const extractedText = await extractTextFromPDF(file);
-    const cleanText = extractedText.replace(/(\r\n|\n|\r)/gm, " ");
-  
-    setKnowledgeBase(cleanText);
+  useEffect(() => {
+    if (!isLoading && knowledgeBase) {
+      console.log(knowledgeBase);
+      // Assuming you want to navigate after knowledgeBase has been updated and isLoading is false
+      navigate('parameters');
+      window.localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
+    }
+  }, [isLoading, knowledgeBase, navigate]);
 
+  const handlePDFExtract = async (file) => {
+    setIsLoading(true);
+    try {
+      const extractedText = await extractTextFromPDF(file);
+      const cleanText = extractedText.replace(/(\r\n|\n|\r)/gm, " ");
+      setKnowledgeBase(cleanText);
+    } catch (error) {
+      console.error('Error extracting text from PDF:', error);
+    }
+    setIsLoading(false);
   };
 
   const handleURLSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
+    setIsLoading(true);
 
-    if (input.toLowerCase().endsWith('.pdf')) {
-      try {
-        const response = await fetch(input);
-        const blob = await response.blob();
-        const file = new File([blob], 'pdf_from_url.pdf');
-        handlePDFExtract(file);
-      } catch (error) {
-        console.error('Error fetching PDF from URL:', error);
+    // Assuming PDF handling is correct, we focus on the else part for non-PDF URLs
+    if (!input.toLowerCase().endsWith('.pdf')) {
+        try {
+            const { data } = await getArticle({ articleUrl: input }).unwrap();
+            
+            // Assuming 'data' directly contains the content. Adjust based on the actual response structure.
+            if (data?.content) {
+                const content = data.content;
+                const parser = new DOMParser();
+                const dom = parser.parseFromString(content, 'text/html');
+                const articleWithoutHtmlTags = dom.body.textContent || "";
+                setKnowledgeBase(articleWithoutHtmlTags);
+            } else {
+                // If no content could be found, it's a good idea to reset or give feedback.
+                console.error('No content found in the article response');
+                setKnowledgeBase(''); // Reset or handle as needed
+            }
+        } catch (error) {
+            console.error('Error fetching article:', error);
+            // Handle any specific error UI feedback if necessary here
+        } finally {
+            setIsLoading(false); // Ensure loading state is always reset here
+        }
+    } else {
+        try {
+          const { data } = await getArticle({articleUrl: input}).unwrap();
+          const content = data.content;
+          if (content) {
+            const parser = new DOMParser();
+            const dom = parser.parseFromString(content, 'text/html');
+            const articleWithoutHtmlTags = dom.body.textContent || "";
+            setKnowledgeBase(articleWithoutHtmlTags);
+          } else {
+            console.error('No content found');
+            setIsLoading(false);
+          }
+        } catch (error) {
+          console.error('Error fetching article:', error);
+          setIsLoading(false);
+        }
       }
-  }
-  else {
-    const { data } = (await getArticle({articleUrl: input})).data;
-    const content = data.content
-  
-    if (data?.content) {
-    const parser = new DOMParser();
-    const dom = parser.parseFromString(content, 'text/html');
-    const articleWithoutHtmlTags = dom.body.textContent || "";
-    const newArticle= { ...article, article: articleWithoutHtmlTags };
-    setArticle(newArticle);
-    setKnowledgeBase(articleWithoutHtmlTags);
-    console.log(knowledgeBase);
-    }
-    else {
-      console.error('Error fetching article:', error);
-    }
-  }
   };
 
   const handleTextSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    const plainText = String(input)
-
+    const plainText = String(input);
     setKnowledgeBase(plainText);
+
+    setIsLoading(false);
   };
 
   const handleFileSelect = async (event) => {
     const file = event.target.files[0];
     if (file.type === 'application/pdf') {
-      handlePDFExtract(file);
-    } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      await handlePDFExtract(file);
+    } else if (file.type.includes('wordprocessingml') || file.type.includes('msword')) {
       // Handle Word document input here
+      console.error('Word document processing not implemented.');
+      setIsLoading(false);
     } else {
       console.error('File is not a PDF or Word document:', file);
+      setIsLoading(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputType === 'url') {
-      handleURLSubmit(e);
+      await handleURLSubmit(e); // Here we await for the function to complete processing
     } else if (inputType === 'text') {
-      handleTextSubmit(e);
+      await handleTextSubmit(e); // Same for handleTextSubmit
     }
-    
-    navigate('parameters');
+    // Notice we removed the navigation logic here to rely on useEffect for redirection
   };
-
-  useEffect(() => {
-    console.log(knowledgeBase);
-    window.localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
-  }, [knowledgeBase]);
 
   return (
     <div className='flex mt-20 justify-center mb-20'>
@@ -121,7 +144,7 @@ const KnowledgeBaseForm = () => {
           {inputType === 'file' && (
             <input
               type='file'
-              accept='application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+              accept='application/pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
               onChange={handleFileSelect}
               className='input pl-10 w-full'
             />
@@ -130,11 +153,14 @@ const KnowledgeBaseForm = () => {
             ⏎
           </button>
         </form>
-        <div>
+        
+        {isLoading ? (
+          <p className="mt-7 font-bold text-center">Loading...</p>
+        ) : (
           <p className='mt-7 font-bold text-center'>
             Enter the link to your class notes, video lecture, or document so we can work our magic.
           </p>
-        </div>
+        )}
       </div>
     </div>
   );
