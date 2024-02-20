@@ -9,7 +9,8 @@ const ParametersDrop = () => {
     const [selectedOptions, setSelectedOptions] = useState('');
     const [response, setResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const userMessage = window.localStorage.getItem('userMessage');
+    const knowledgeBase = window.localStorage.getItem('knowledgeBase');
+    console.log(knowledgeBase); 
     const navigate = useNavigate();
 
 
@@ -36,7 +37,7 @@ const ParametersDrop = () => {
         setIsLoading(true);
         setTimeout(async () => {
             try {
-                const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: userMessage}))}`);
+                const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: knowledgeBase}))}`);
                 const data = await serverResponse.json();
                 setResponse(JSON.stringify(data, null, 2));
                 console.log(data);

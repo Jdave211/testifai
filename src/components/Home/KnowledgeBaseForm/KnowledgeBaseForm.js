@@ -20,6 +20,7 @@ const KnowledgeBaseForm = () => {
     const cleanText = extractedText.replace(/(\r\n|\n|\r)/gm, " ");
   
     setKnowledgeBase(cleanText);
+
   };
 
   const handleURLSubmit = async (e) => {
@@ -44,7 +45,6 @@ const KnowledgeBaseForm = () => {
     const dom = parser.parseFromString(content, 'text/html');
     const articleWithoutHtmlTags = dom.body.textContent || "";
     const newArticle= { ...article, article: articleWithoutHtmlTags };
-    console.log(articleWithoutHtmlTags)
     setArticle(newArticle);
     setKnowledgeBase(articleWithoutHtmlTags);
     console.log(knowledgeBase);
@@ -53,7 +53,6 @@ const KnowledgeBaseForm = () => {
       console.error('Error fetching article:', error);
     }
   }
-  window.localStorage.setItem('selectedOptions', JSON.stringify(newOptions));
   };
 
   const handleTextSubmit = async (e) => {
@@ -83,11 +82,12 @@ const KnowledgeBaseForm = () => {
       handleTextSubmit(e);
     }
     
-    // navigate('parameters');
+    navigate('parameters');
   };
 
   useEffect(() => {
     console.log(knowledgeBase);
+    window.localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
   }, [knowledgeBase]);
 
   return (
