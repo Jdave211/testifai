@@ -7,6 +7,8 @@ const TestPage = () => {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
     console.log(apiResponse);
     const correctAnswers = apiResponse.answers;
+    const questions = findArrayInObject(apiResponse.questions);
+    console.log(questions);
     const selectedParams = JSON.parse(window.localStorage.getItem('selectedOptions'));
     const quizType = selectedParams.quizType;
     const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -31,8 +33,6 @@ const TestPage = () => {
         return null;
     }
 
-    const questions = findArrayInObject(apiResponse.questions);
-    console.log(questions);
 
 
     const handleAnswerSelection = (questionIndex, selectedOption) => {
