@@ -14,7 +14,6 @@ const KnowledgeBaseForm = () => {
   useEffect(() => {
     if (!isLoading && knowledgeBase) {
       console.log(knowledgeBase);
-      // Assuming you want to navigate after knowledgeBase has been updated and isLoading is false
       navigate('parameters');
       window.localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
     }
@@ -59,25 +58,18 @@ const KnowledgeBaseForm = () => {
         } finally {
             setIsLoading(false); // Ensure loading state is always reset here
         }
-    } else {
+      } else {
         try {
-          const { data } = await getArticle({articleUrl: input}).unwrap();
-          const content = data.content;
-          if (content) {
-            const parser = new DOMParser();
-            const dom = parser.parseFromString(content, 'text/html');
-            const articleWithoutHtmlTags = dom.body.textContent || "";
-            setKnowledgeBase(articleWithoutHtmlTags);
-          } else {
-            console.error('No content found');
-            setIsLoading(false);
-          }
-        } catch (error) {
-          console.error('Error fetching article:', error);
-          setIsLoading(false);
-        }
+        const response = await fetch(input);
+        const blob = await response.blob();
+        const file = new File([blob], 'pdf_from_url.pdf');
+        await handlePDFExtract(file);
+      } catch (error) {
+        console.error('Error fetching PDF from URL:', error);
+        setIsLoading(false);
       }
-  };
+    } 
+    };
 
   const handleTextSubmit = async (e) => {
     e.preventDefault();
