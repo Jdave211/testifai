@@ -1,58 +1,79 @@
 .select_menu {
-    width: 380px;
-    margin: 95px auto;
-  }
-  
-  .select_menu .select_btn {
-    display: flex;
-    background: #fff;
-    padding: 20px;
-    font-size: 18px;
-    font-weight: 400;
-    border-radius: 8px;
-    align-items: center;
-    cursor: pointer;
-    justify-content: space-between;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    width: 323px;
-  }
-  
-  .select_btn {
-    font-size: 25px;
-    align-items: center;
-    margin-right: 5px;
-  }
-  
-  .select_menu .options {
-    position: relative;
-    padding: 20px;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .options .option {
-    display: flex;
-    height: 55px;
-    cursor: pointer;
-    padding: 0 16px;
-    border-radius: 8px;
-    align-items: center;
-    background: #fff;
-  }
-  
-  .options .option:hover {
-    background: #f2f2f2;
-  }
-  
-  .option {
-    font-size: 25px;
-    margin-right: 12px;
-    align-items: center;
-  }
-  
-  .option .option_text {
-    font-size: 18px;
-    color: #333;
-  }
-  
+  width: 380px;
+  margin: 95px auto;
+  font-family: Arial, sans-serif; /* Use a modern, readable font */
+}
+
+.select_menu .select_btn {
+  display: flex;
+  background: #fff;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 400;
+  border-radius: 8px;
+  align-items: center;
+  cursor: pointer;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  width: 100%; /* Make it responsive */
+  border: 1px solid #ccc; /* Subtle border */
+  transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+}
+
+.select_btn:hover,
+.select_btn:focus {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover/focus */
+  border-color: #007bff; /* Highlight color */
+}
+
+.select_menu .options {
+  position: relative;
+  padding: 20px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-height: 200px; /* Set a max-height */
+  overflow-y: auto; /* Enable scrolling for long lists */
+  transition: max-height 0.3s ease; /* Smooth expand/collapse */
+}
+
+.options .option {
+  display: flex;
+  height: 55px;
+  cursor: pointer;
+  padding: 0 16px;
+  border-radius: 8px;
+  align-items: center;
+  background: #fff;
+  transition: background-color 0.2s ease; /* Smooth background transition */
+}
+
+.options .option:hover {
+  background: #f2f2f2;
+}
+
+.option {
+  font-size: 18px; /* Adjusted for readability */
+  margin-right: 12px;
+  align-items: center;
+}
+
+.option .option_text {
+  font-size: 18px;
+  color: #333;
+}
+
+.search_input {
+  width: calc(100% - 40px); /* Full width minus padding */
+  padding: 10px 20px;
+  margin-bottom: 10px; /* Space between search and dropdown */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease;
+}
+
+.search_input:focus {
+  outline: none;
+  border-color: #007bff; /* Highlight color on focus */
+}
