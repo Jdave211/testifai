@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
 import { extractTextFromPDF } from './pdfUtils';
+import form from '../../images/form.png';
 
 const KnowledgeBaseForm = () => {
   const [input, setInput] = useState('');
