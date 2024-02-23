@@ -7,7 +7,7 @@ const TestPage = () => {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
     console.log(apiResponse);
     const correctAnswers = apiResponse.answers;
-    const questions = findArrayInObject(apiResponse.questions);
+    const questions = findArrayInObject(apiResponse.formattedQuestions);
     console.log(questions);
     const selectedParams = JSON.parse(window.localStorage.getItem('selectedOptions'));
     const quizType = selectedParams.quizType;
