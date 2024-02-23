@@ -125,7 +125,7 @@ const KnowledgeBaseForm = () => {
         onClick={() => setInputType('file')} 
         className={`px-4 py-2 rounded-md border transition-all duration-300 ${inputType === 'file' ? 'border-blue-700 text-blue-700 hover:bg-blue-100' : 'border-gray-300 text-gray-700 hover:bg-gray-100'}`}
       >
-        Local Document
+        PDF
       </button>
     </div>
         <form className='relative flex flex-col items-center' onSubmit={handleSubmit}>
