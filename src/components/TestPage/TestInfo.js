@@ -43,9 +43,9 @@ const TestInfo = (props) => {
 
     return (
         <div>
-            <div className='mx-auto'>
+            <div className=''>
                 <Navbar />
-                <div className='flex mt-5 '>
+                <div className='flex mt-10 pt-15'>
                     <p className='text-5xl font-bold mx-auto text-yellow-600 stud'>Test</p>
                 </div>
                 <div className='flex justify-center font-bold mb-2 mt-2 text-4xl underline stud'>

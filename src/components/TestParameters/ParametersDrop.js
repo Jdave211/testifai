@@ -76,13 +76,13 @@ const ParametersDrop = () => {
       return (
         <div>
             <Navbar />
-            <div>
+            <div className='mt-5'>
                 {isLoading ?
-                    <div className='my-10 max-w-full flex justify-center items-center'> 
+                    <div className='h-screen my-10 max-w-full flex justify-center items-center mt-10'> 
                         <img src={loader} alt='loader' className='w-30 h-30 object-contain' />
                     </div> :
                     (
-                        <div>
+                        <div className=''>
                             <DropDownList name='difficultyLevel' label="Select your test difficulty" options={options} onSelect={handleSelect} />  
                             <DropDownList name='quizType' label="Select your type of test" options={options2} onSelect={handleSelect} />  
                             <DropDownList name='numberOfQuestions' label="Select your number of questions" options={options3} onSelect={handleSelect} />  

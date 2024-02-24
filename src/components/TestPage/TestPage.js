@@ -91,7 +91,7 @@ const TestPage = () => {
     return (
         <div>
             <Navbar />
-            <div>
+            <div className='mt-10'>
                 Tests
             </div>
             <div className='questions mt-7 ml-4'>
