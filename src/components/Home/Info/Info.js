@@ -4,15 +4,15 @@ import './Info.css';
 
 const Info = () => {
   return (
-    <div className='flex'>
+    <div className='flex mt-9'>
       <div className='mx-auto mt-7 relative w-100'>
-        <div className='inf'>
-          <p className='name mx-auto relative'>TestifAI</p>
+        <div className=''>
+          <p className='name mx-auto relative inf'>TestifAI</p>
           <div className='flex justify-between mb-2'>
-            <p className='text-5xl font-bold mx-auto text-yellow-600 stud'>By Students, For Students</p>
+            <p className='text-5xl font-bold mx-auto stud'>By Students, For Students</p>
           </div>
-          <div className='flex justify-between'>
-            <p className='column_text mr-5 font-bold text-yellow-600 mb-10'>
+          <div className='flex justify-between about'>
+            <p className='column_text mr-5 font-bold mb-10'>
               Your ultimate companion for interactive and personalized learning. As a cutting-edge quiz app, Testifai goes beyond traditional methods, offering a dynamic platform that generates detailed tests and quizzes based on your chosen knowledge base. Whether you're studying from lecture notes, videos, or textbooks, Testifai adapts to your content, providing a tailored quiz experience that reinforces your understanding.
             </p>
             <p className='column_text ml-5 font-bold'>

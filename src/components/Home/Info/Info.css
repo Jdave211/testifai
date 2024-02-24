@@ -34,7 +34,8 @@
   }
 
   .stud{
-    background: linear-gradient(#FFD700, #4B0082);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    font-size: 1.5rem;
+    color: #5F6A7D; /* Slate grey with blue undertones */
+    margin-bottom: 1.5rem;
+    font-weight: 600;
   }

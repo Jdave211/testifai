@@ -1,12 +1,18 @@
 
 .nav{
-    background: linear-gradient(90deg,#d9e7ff  0%, #e3ffe7 100%);
+    position: fixed; /* Keep the navbar fixed at the top of the viewport */
+    top: 0; /* Align the navbar at the top of the viewport */
+    left: 0; /* Ensure the navbar spans from the left edge */
+    width: 100%; /* Ensure the navbar spans the full width of the viewport */
+    background: linear-gradient(90deg,#d9e7ff  0%, #e3ffe7 100%); /* Your existing gradient */
     box-sizing: border-box;
     color: black;
-    display:flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: #d9e7ff 2px solid;
+    z-index: 1000; /* Ensure the navbar is above other content */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow for depth */
 }
 
 .logo{
