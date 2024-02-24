@@ -131,30 +131,36 @@ const KnowledgeBaseForm = () => {
     </div>
         <form className='relative flex flex-col items-center' onSubmit={handleSubmit}>
           {inputType === 'url' && (
+            <div className='relative flex items-center'>
+              <img src={form} className='absolute left-3 w-6 h-6 z-10'></img>
             <input
               type='url'
               placeholder='Enter a URL'
               required
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className='input pl-10 w-full'
+              className='input pl-10 w-full h-11'
             />
+            </div>
           )}
           {inputType === 'text' && (
+            <div className='relative flex items-center'>
+            <img src={form} className='absolute left-3 w-6 h-6 z-10'></img>
             <textarea
               placeholder='Paste plain text'
               required
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className='input pl-10 w-full'
+              className='input pl-10 w-full h-11'
             />
+            </div>
           )}
           {inputType === 'file' && (
             <input
               type='file'
               accept='application/pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
               onChange={handleFileSelect}
-              className='input pl-10 w-full'
+              className='input pl-10 w-full h-11'
             />
           )}
           <button type='submit' className='submit_btn black_btn peer-focus:border-gray-700 peer-focus:text-gray-700'>
