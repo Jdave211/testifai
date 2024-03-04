@@ -30,7 +30,7 @@ const Navbar = () => {
                 <Logo />
             </Link>
             <div className ='items flex space-x-8 ml-auto relative'>
-            <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="profile black_btn">
+            <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="profile black_btn font-semibold">
                 Profile
             </button>
             {isProfileOpen && (
