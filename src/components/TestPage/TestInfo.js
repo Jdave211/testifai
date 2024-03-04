@@ -13,7 +13,7 @@ const TestInfo = (props) => {
     let generatedInstructions = '';
 
     if (selectedOptions.quizType === 'multiple choice') {
-        generatedInstructions += "In this section, you'll encounter multiple-choice questions. Each question has 4 options, and you need to select the correct answer by ticking the appropriate checkboxes.\n\n";
+        generatedInstructions += "In this section, you will encounter multiple-choice questions. Each question has 4 options, and you need to select the correct answer by ticking the appropriate checkboxes.\n\n";
     }
 
     if (selectedOptions.quizType === 'essay') {
