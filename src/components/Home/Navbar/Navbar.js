@@ -2,10 +2,12 @@ import React, {useState, useEffect, useRef} from 'react';
 import './Navbar.css';
 import Logo from '../Logo/Logo';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const ref = useRef();
+    const navigate = useNavigate();
 
     const user = {
         name: 'John Doe',
@@ -38,7 +40,7 @@ const Navbar = () => {
                 <div className="px-4 py-2 font-semibold">Name: {user.name}</div>
                 <div className="px-4 py-2 font-semibold">Credits: {user.credits}</div>
                 <button className="px-4 py-2 w-full text-left hover:bg-gray-400 font-semibold">Buy More Credits</button>
-                <button className="px-4 py-2 w-full text-left hover:bg-gray-400 font-semibold">Sign Out</button>
+                <button className="px-4 py-2 w-full text-left hover:bg-gray-400 font-semibold" onClick={() => navigate('/signup')}>Sign Out</button>
                 </div>
             )}
             </div>

@@ -14,11 +14,9 @@ import ParticlesBg from 'particles-bg';
 function Home() {
   return (
     <div>
-      {/* <Navbar />
+      <Navbar />
       <Info />
-      <KnowledgeBaseForm /> */}
-      <SignUp />
-      <SignIn />
+      <KnowledgeBaseForm />
     </div>
   );
 }
@@ -29,12 +27,14 @@ function App() {
       <div className='App'>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/parameters" element={<ParametersDrop />} />
           <Route path="/testinf" element={<TestInfo />} />
           <Route path="/testpg" element={<TestPage />} />
           <Route path="/resultpg" element={<ResultPage />} />
         </Routes>
-        <ParticlesBg color='#DDA0DD' num={40} className='particles' type="cobweb" bg={true} />
+        <ParticlesBg color='#DDA0DD' num={40} className='particles' type="cobweb" bg={true} style={{ zIndex: 1 }} />
       </div>
     </Router> 
   );

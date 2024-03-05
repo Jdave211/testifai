@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../Home/Navbar/Navbar';
 import google from '../images/google.png';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,7 +65,7 @@ const SignIn = () => {
               <button
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
+                onClick={() => navigate('/')}>
                 Sign in
               </button>
             </div>
@@ -83,15 +85,15 @@ const SignIn = () => {
                   type="button"
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  <span className="sr-only">Sign in with Google</span>
-                  <img src={google} alt="Google" />
-                  Google
+                  <span className="sr-only" onClick={() => navigate('/')}>Sign in with Google</span>
+                  <img src={google} alt="Google" className="h-5 w-5 mr-1" />
+                  oogle
                 </button>
               </div>
               <div className="mt-6 text-center">
                 <p className="text-sm text-gray-600">
                   Don't have an account?{' '}
-                  <div className="font-medium text-indigo-600 hover:text-indigo-500">
+                  <div className="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer" onClick={() => navigate('/signup')}>
                     Sign up
                   </div>
                 </p>
