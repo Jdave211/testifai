@@ -7,14 +7,18 @@ import ParametersDrop from './components/TestParameters/ParametersDrop';
 import TestInfo from './components/TestPage/TestInfo';
 import TestPage from './components/TestPage/TestPage';
 import ResultPage from './components/Feedback/ResultPage';
+import SignUp from './components/SignupLogin/SignUp';
+import SignIn from './components/SignupLogin/SignIn';
 import ParticlesBg from 'particles-bg';
 
 function Home() {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar />
       <Info />
-      <KnowledgeBaseForm />
+      <KnowledgeBaseForm /> */}
+      <SignUp />
+      <SignIn />
     </div>
   );
 }
