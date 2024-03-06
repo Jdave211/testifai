@@ -18,7 +18,6 @@ const SignUp = () => {
   return (
     <div>
       <ParticlesBg color='#DDA0DD' num={40} className='particles' type="cobweb" bg={true} style={{ zIndex: 9999 }} />
-    <Navbar />
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
