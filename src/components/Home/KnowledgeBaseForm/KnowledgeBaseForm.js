@@ -172,7 +172,7 @@ const KnowledgeBaseForm = () => {
           <p className="mt-7 font-bold text-center">Loading...</p>
         ) : (
           <p className='mt-7 font-bold text-center'>
-            Enter the link to your class notes, video lecture, or document so we can work our magic.
+            Enter your class notes, video lecture, or document so we can work our magic.
           </p>
         )}
       </div>
