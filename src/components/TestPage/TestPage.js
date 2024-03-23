@@ -6,42 +6,21 @@ import { useNavigate } from 'react-router-dom';
 const TestPage = () => {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
     console.log(apiResponse);
-    const correctAnswers = apiResponse.answers;
     const questions = findArrayInObject(apiResponse.formattedQuestions);
     console.log(questions);
     const selectedParams = JSON.parse(window.localStorage.getItem('selectedOptions'));
+    console.log(selectedParams);
     const quizType = selectedParams.quizType;
-    const [selectedAnswers, setSelectedAnswers] = useState({});
     const [userResponses, setUserResponses] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isMarkingDone, setIsMarkingDone] = useState(false);
     const navigate = useNavigate();
 
-    function findArrayInObject(obj) {
-        for (let key in obj) {
-            if (Array.isArray(obj[key])) {
-                return obj[key];
-            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-                let foundArray = findArrayInObject(obj[key]);
-                if (foundArray) {
-                    return foundArray;
-                }
-            } else{
-                return [obj]
-            }
-        }
-        return null;
-    }
-
-
 
     const handleAnswerSelection = (questionIndex, selectedOption) => {
         let userResponse;
     
-        if (quizType === 'multiple choice') {
-            // Store the selected option index directly
-            userResponse = selectedOption;
-        } else if (quizType === 'true/false') {
+        if (quizType === 'true/false') {
             // Map 'true' or 'false' directly
             userResponse = selectedOption === 'True' ? 'True' : 'False';
         } else {
