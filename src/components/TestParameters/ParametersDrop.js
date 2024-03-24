@@ -59,9 +59,9 @@ const ParametersDrop = () => {
       
       const options2 = [
         { value: 'multiple choice', label: 'McQ' },
-        { value: 'short answer', label: 'Short Answer' },
+        // { value: 'short answer', label: 'Short Answer' },
         { value: 'true/false', label: 'T/F' },
-        { value: 'essay', label: 'Essay' }
+        // { value: 'essay', label: 'Essay' }
       ];
       
       const options3 = [
