@@ -5,21 +5,47 @@ import { useNavigate } from 'react-router-dom';
 const TestPage = () => {
     const apiResponse = JSON.parse(window.localStorage.getItem('apiResponse'));
     console.log(apiResponse);
-    const questions = apiResponse.questions;
+    let questions = apiResponse.questions;
     console.log(questions);
     const selectedParams = JSON.parse(window.localStorage.getItem('selectedOptions'));
     console.log(selectedParams);
     const quizType = selectedParams.quizType;
     const [userResponses, setUserResponses] = useState({});
-    const [selectedOptions, setSelectedOptions] = useState({});  
+    const [selectedOptions, setSelectedOptions] = useState({});
+
+    if (quizType === "true/false") {
+        questions = apiResponse.questions.questions;
+    }
 
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Ensure all questions are answered
+        if (Object.keys(selectedOptions).length !== questions.length) {
+            alert('Please answer all questions before submitting.');
+            return;
+        }
+
+        // Initialize score
+        let score = 0;
+
+        // Check each answer
+        for (let i = 0; i < questions.length; i++) {
+            if (selectedOptions[questions[i].number] === questions[i].answer) {
+                score++;
+            }
+        }
+
+        // Display score
+        alert(`Your score is ${score} out of ${questions.length}`);
+    };
 
     return (
         <div> 
             <Navbar /> 
             <div className="container mx-auto mt-4"> 
-                <form onSubmit={(e) => { e.preventDefault(); if (Object.keys(selectedOptions).length !== questions.length) {alert('Please answer all questions before submitting.');return;}/* Add Submit Logic */ }}>
+                <form onSubmit={ handleSubmit }>
                     <div className="mb-6"> 
                         {questions.map((question) => (
                             <div key={question.number} className="mb-8 border rounded-lg p-6 shadow-md"> 
