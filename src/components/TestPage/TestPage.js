@@ -19,7 +19,7 @@ const TestPage = () => {
         <div> 
             <Navbar /> 
             <div className="container mx-auto mt-4"> 
-                <form onSubmit={(e) => { e.preventDefault(); if (Object.keys(selectedOptions).length !== questions.length) {alert('Please answer all questions before submitting.');return;}/* Add Submit Logic Here */ }}>
+                <form onSubmit={(e) => { e.preventDefault(); if (Object.keys(selectedOptions).length !== questions.length) {alert('Please answer all questions before submitting.');return;}/* Add Submit Logic */ }}>
                     <div className="mb-6"> 
                         {questions.map((question) => (
                             <div key={question.number} className="mb-8 border rounded-lg p-6 shadow-md"> 
