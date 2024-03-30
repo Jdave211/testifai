@@ -24,7 +24,8 @@ function Home() {
 function App() {
   return (
     <Router>
-      <div className='App'>
+      <div className='App' >
+        <ParticlesBg color='#5F0A87' num={30} className='particles' type="cobweb" bg={true} style={{ zIndex: 0 }} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
@@ -34,7 +35,7 @@ function App() {
           <Route path="/testpg" element={<TestPage />} />
           <Route path="/resultpg" element={<ResultPage />} />
         </Routes>
-        <ParticlesBg color='#DDA0DD' num={50} className='particles' type="cobweb" bg={true} style={{ zIndex: 1 }} />
+        <ParticlesBg color='#DDA0DD' num={40} className='particles' type="cobweb" bg={true} style={{ zIndex: 1 }} />
       </div>
     </Router> 
   );
