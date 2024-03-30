@@ -21,7 +21,7 @@ const Info = () => {
           </div>
         </div>
       </div>
-      <ParticlesBg color='#DDA0DD' num={40} className='particles' type="cobweb" bg={true} />
+      {/* <ParticlesBg color='#DDA0DD' num={40} className='particles' type="cobweb" bg={true} /> */}
     </div>
   );
 }
