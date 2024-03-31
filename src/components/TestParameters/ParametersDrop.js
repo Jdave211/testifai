@@ -78,7 +78,7 @@ const ParametersDrop = () => {
             <Navbar />
             <div className='mt-5'>
                 {isLoading ?
-                    <div className='h-screen my-10 max-w-full flex justify-center items-center mt-10'> 
+                    <div className='h-screen my-5 max-w-full flex justify-center items-center'> 
                         <img src={loader} alt='loader' className='w-30 h-30 object-contain' />
                     </div> :
                     (
