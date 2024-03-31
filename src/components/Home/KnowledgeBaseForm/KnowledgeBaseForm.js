@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
+import { useRecognizeHandwritingMutation } from '../../../services/handwrite.js';
 import { extractTextFromPDF } from './pdfUtils';
 import form from '../../images/form.png';
 
 const KnowledgeBaseForm = () => {
   const [input, setInput] = useState('');
-  const [inputType, setInputType] = useState('url');
+  const [inputType, setInputType] = useState('text');
   const [getArticle, { error }] = useLazyGetArticlesQuery();
   const [knowledgeBase, setKnowledgeBase] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [recognizeHandwriting, { data }] = useRecognizeHandwritingMutation();
 
   useEffect(() => {
     if (!isLoading && knowledgeBase) {
@@ -20,58 +22,7 @@ const KnowledgeBaseForm = () => {
     }
   }, [isLoading, knowledgeBase, navigate]);
 
-  const handlePDFExtract = async (file) => {
-    setIsLoading(true);
-    try {
-      const extractedText = await extractTextFromPDF(file);
-      const cleanText = extractedText.replace(/(\r\n|\n|\r)/gm, " ");
-      setKnowledgeBase(cleanText);
-    } catch (error) {
-      console.error('Error extracting text from PDF:', error);
-    }
-    setIsLoading(false);
-  };
-
-  const handleURLSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    // Assuming PDF handling is correct, we focus on the else part for non-PDF URLs
-    if (!input.toLowerCase().endsWith('.pdf')) {
-        try {
-            const { data } = await getArticle({ articleUrl: input }).unwrap();
-            
-            // Assuming 'data' directly contains the content. Adjust based on the actual response structure.
-            if (data?.content) {
-                const content = data.content;
-                const parser = new DOMParser();
-                const dom = parser.parseFromString(content, 'text/html');
-                const articleWithoutHtmlTags = dom.body.textContent || "";
-                setKnowledgeBase(articleWithoutHtmlTags);
-            } else {
-                // If no content could be found, it's a good idea to reset or give feedback.
-                console.error('No content found in the article response');
-                setKnowledgeBase(''); // Reset or handle as needed
-            }
-        } catch (error) {
-            console.error('Error fetching article:', error);
-            // Handle any specific error UI feedback if necessary here
-        } finally {
-            setIsLoading(false); // Ensure loading state is always reset here
-        }
-      } else {
-        try {
-        const response = await fetch(input);
-        const blob = await response.blob();
-        const file = new File([blob], 'pdf_from_url.pdf');
-        await handlePDFExtract(file);
-      } catch (error) {
-        console.error('Error fetching PDF from URL:', error);
-        setIsLoading(false);
-      }
-    } 
-    };
-
+  
   const handleTextSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -80,6 +31,42 @@ const KnowledgeBaseForm = () => {
     setKnowledgeBase(plainText);
 
     setIsLoading(false);
+  };
+
+  const handleURLSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+  
+    if (!input.toLowerCase().endsWith('.pdf')) {
+      try {
+        const { data } = await getArticle({ articleUrl: input }).unwrap();
+        if (data?.content) {
+          const content = data.content;
+          const parser = new DOMParser();
+          const dom = parser.parseFromString(content, 'text/html');
+          const articleWithoutHtmlTags = dom.body.textContent || "";
+          const truncatedText = articleWithoutHtmlTags.split(/\s+/).slice(0, 550).join(' ');
+          setKnowledgeBase(truncatedText);
+        } else {
+          console.error('No content found in the article response');
+          setKnowledgeBase('');
+        }
+      } catch (error) {
+        console.error('Error fetching article:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      try {
+        const response = await fetch(input);
+        const blob = await response.blob();
+        const file = new File([blob], 'pdf_from_url.pdf');
+        await handlePDFExtract(file);
+      } catch (error) {
+        console.error('Error fetching PDF from URL:', error);
+        setIsLoading(false);
+      }
+    }
   };
 
   const handleFileSelect = async (event) => {
@@ -96,6 +83,56 @@ const KnowledgeBaseForm = () => {
     }
   };
 
+  const handlePDFExtract = async (file) => {
+    setIsLoading(true);
+    try {
+      const extractedText = await extractTextFromPDF(file);
+      const cleanText = extractedText.replace(/(\r\n|\n|\r)/gm, " ");
+      const truncatedText = cleanText.split(/\s+/).slice(0, 550).join(' ');
+      setKnowledgeBase(truncatedText);
+    } catch (error) {
+      console.error('Error extracting text from PDF:', error);
+    }
+    setIsLoading(false);
+  };
+
+  const handleImageSelect = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    
+
+    const file = event.target.files[0];
+    if (file.type.startsWith('image/')) {
+      try {
+        const { data } = await recognizeHandwriting({ srcImg: file }).unwrap();
+        if (data) {
+          console.log(data);
+          // const truncatedText = articleWithoutHtmlTags.split(/\s+/).slice(0, 550).join(' ');
+          // setKnowledgeBase(truncatedText);
+        } else {
+          console.error('No content found in the article response');
+          setKnowledgeBase('');
+        }
+      } catch (error) {
+        console.error('Error fetching article:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      try {
+        const response = await fetch(input);
+        const blob = await response.blob();
+        const file = new File([blob], 'pdf_from_url.pdf');
+        await handlePDFExtract(file);
+      } catch (error) {
+        console.error('Error fetching PDF from URL:', error);
+        setIsLoading(false);
+      }
+  };
+};
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputType === 'url') {
@@ -111,16 +148,16 @@ const KnowledgeBaseForm = () => {
       <div className='flex flex-col gap-2 ml-5 mr-5 w-1/2'>
       <div className='flex justify-center gap-2 mb-4'>
       <button 
-        onClick={() => setInputType('url')} 
-        className={`px-4 py-2 rounded-md border transition-all duration-300 ${inputType === 'url' ? 'border-blue-700 text-blue-700 hover:bg-blue-100' : 'border-gray-300 text-gray-700 hover:bg-gray-100'}`}
-      >
-        URL
-      </button>
-      <button 
         onClick={() => setInputType('text')} 
         className={`px-4 py-2 rounded-md border transition-all duration-300 ${inputType === 'text' ? 'border-blue-700 text-blue-700 hover:bg-blue-100' : 'border-gray-300 text-gray-700 hover:bg-gray-100'}`}
       >
         Plain Text
+      </button>
+      <button 
+        onClick={() => setInputType('url')} 
+        className={`px-4 py-2 rounded-md border transition-all duration-300 ${inputType === 'url' ? 'border-blue-700 text-blue-700 hover:bg-blue-100' : 'border-gray-300 text-gray-700 hover:bg-gray-100'}`}
+      >
+        URL
       </button>
       <button 
         onClick={() => setInputType('file')} 
@@ -128,6 +165,12 @@ const KnowledgeBaseForm = () => {
       >
         PDF
       </button>
+      <button 
+        onClick={() => setInputType('handwriting')} 
+        className={`px-4 py-2 rounded-md border transition-all duration-300 ${inputType === 'handwriting' ? 'border-blue-700 text-blue-700 hover:bg-blue-100' : 'border-gray-300 text-gray-700 hover:bg-gray-100'}`}
+      >
+        Handwriting
+  </button>
     </div>
         <form className='relative flex flex-col items-center' onSubmit={handleSubmit}>
           {inputType === 'url' && (
@@ -150,7 +193,10 @@ const KnowledgeBaseForm = () => {
               placeholder='Paste plain text'
               required
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => {
+                const newInput = e.target.value.split(/\s+/).slice(0, 550).join(' ');
+                setInput(newInput);
+              }}
               className='input pl-10 w-full h-11'
             />
             </div>
@@ -163,11 +209,23 @@ const KnowledgeBaseForm = () => {
               className='input pl-10 w-full h-11'
             />
           )}
+          {inputType === 'handwriting' && (
+            <input
+              type='file'
+              accept='image/*'
+              onChange={handleImageSelect}
+              className='input pl-10 w-full h-11'
+            />
+          )}
           <button type='submit' className='submit_btn black_btn peer-focus:border-gray-700 peer-focus:text-gray-700'>
             ⏎
           </button>
         </form>
-        
+        <div>
+          <p className='text-xs ml-16 font-bold text-orange-800'>
+          {input.split(/\s+/).length} / 500 words
+          </p>
+        </div>
         {isLoading ? (
           <p className="mt-7 font-bold text-center">Loading...</p>
         ) : (
