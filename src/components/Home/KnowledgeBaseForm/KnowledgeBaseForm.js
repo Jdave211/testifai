@@ -100,28 +100,6 @@ const KnowledgeBaseForm = () => {
     event.preventDefault();
     setIsLoading(true);
 
-
-    const file = event.target.files[0];
-    if (file.type.startsWith('image/')) {
-      try {
-        const extractedText = await recognizeHandwriting(file);
-        if (extractedText) {
-          const truncatedText = extractedText.split(/\s+/).slice(0, 550).join(' ');
-          setKnowledgeBase(truncatedText);
-        } else {
-          console.error('No text extracted from handwriting analysis');
-          // Handle the case where handwriting recognition returns no text
-        }
-      } catch (error) {
-        console.error('Error analyzing handwriting:', error);
-        // Handle errors during handwriting recognition
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-        console.error('Error fetching PDF from URL:', error);
-        setIsLoading(false);
-      }
   };
 
 
