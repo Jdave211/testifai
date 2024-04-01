@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
-import { useRecognizeHandwritingMutation } from '../../../services/handwrite.js';
+import { recognizeHandwriting } from '../../../services/handwrite.js';
 import { extractTextFromPDF } from './pdfUtils';
 import form from '../../images/form.png';
 
@@ -9,10 +9,11 @@ const KnowledgeBaseForm = () => {
   const [input, setInput] = useState('');
   const [inputType, setInputType] = useState('text');
   const [getArticle, { error }] = useLazyGetArticlesQuery();
+  const [imageFile, setImageFile] = useState(null);
+  const [resultText, setResultText] = useState('');
   const [knowledgeBase, setKnowledgeBase] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const [recognizeHandwriting, { data }] = useRecognizeHandwritingMutation();
 
   useEffect(() => {
     if (!isLoading && knowledgeBase) {
@@ -100,37 +101,29 @@ const KnowledgeBaseForm = () => {
     event.preventDefault();
     setIsLoading(true);
 
-    
 
     const file = event.target.files[0];
     if (file.type.startsWith('image/')) {
       try {
-        const { data } = await recognizeHandwriting({ srcImg: file }).unwrap();
-        if (data) {
-          console.log(data);
-          // const truncatedText = articleWithoutHtmlTags.split(/\s+/).slice(0, 550).join(' ');
-          // setKnowledgeBase(truncatedText);
+        const extractedText = await recognizeHandwriting(file);
+        if (extractedText) {
+          const truncatedText = extractedText.split(/\s+/).slice(0, 550).join(' ');
+          setKnowledgeBase(truncatedText);
         } else {
-          console.error('No content found in the article response');
-          setKnowledgeBase('');
+          console.error('No text extracted from handwriting analysis');
+          // Handle the case where handwriting recognition returns no text
         }
       } catch (error) {
-        console.error('Error fetching article:', error);
+        console.error('Error analyzing handwriting:', error);
+        // Handle errors during handwriting recognition
       } finally {
         setIsLoading(false);
       }
     } else {
-      try {
-        const response = await fetch(input);
-        const blob = await response.blob();
-        const file = new File([blob], 'pdf_from_url.pdf');
-        await handlePDFExtract(file);
-      } catch (error) {
         console.error('Error fetching PDF from URL:', error);
         setIsLoading(false);
       }
   };
-};
 
 
   const handleSubmit = async (e) => {

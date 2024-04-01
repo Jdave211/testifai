@@ -1,31 +1,32 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+const axios = require('axios');
+const fs = require('fs');
+const FormData = require('form-data');
 
 const rapidApiKey = process.env.REACT_APP_RAPID_API_KEY;
+const API_ENDPOINT = 'https://pen-to-print-handwriting-ocr.p.rapidapi.com/recognize/';
 
-export const handwritingApi = createApi({
-  reducerPath: 'handwritingApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://pen-to-print-handwriting-ocr.p.rapidapi.com/',
-    prepareHeaders: (headers) => {
-      headers.set('X-RapidAPI-Key', rapidApiKey);
-      headers.set('X-RapidAPI-Host', 'pen-to-print-handwriting-ocr.p.rapidapi.com');
-      return headers;
+async function recognizeHandwriting(imagePath) {
+  const data = new FormData();
+  data.append('srcImg', fs.createReadStream(imagePath));
+
+  const options = {
+    method: 'POST',
+    url: API_ENDPOINT,
+    headers: {
+      'X-RapidAPI-Key': rapidApiKey,
+      'X-RapidAPI-Host': 'pen-to-print-handwriting-ocr.p.rapidapi.com',
+      ...data.getHeaders(),
     },
-  }),
-  endpoints: (builder) => ({
-    recognizeHandwriting: builder.mutation({
-      query: ({ srcImg, session }) => {
-        const formData = new FormData();
-        formData.append('srcImg', srcImg);
+    data: data
+  };
 
-        return {
-          url: '/recognize/',
-          method: 'POST',
-          body: formData,
-        };
-      },
-    }),
-  }),
-});
+  try {
+    const response = await axios.request(options);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error; // Re-throw to pass it up to the caller
+  }
+}
 
-export const { useRecognizeHandwritingMutation } = handwritingApi;
+module.exports = { recognizeHandwriting }; 
