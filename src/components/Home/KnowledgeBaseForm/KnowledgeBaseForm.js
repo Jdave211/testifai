@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
 import { extractTextFromPDF } from './pdfUtils';
 import form from '../../images/form.png';
+import image from '../../images/image.png';
+import pdf from '../../images/pdf.png';
+import url from '../../images/url.png';
 
 const KnowledgeBaseForm = () => {
   const [input, setInput] = useState('');
@@ -145,7 +148,7 @@ const KnowledgeBaseForm = () => {
         <form className='relative flex flex-col items-center' onSubmit={handleSubmit}>
           {inputType === 'url' && (
             <div className='relative flex items-center'>
-              <img src={form} className='absolute left-3 w-6 h-6 z-10'></img>
+              <img src={url} className='absolute left-3 w-6 h-6 z-10'></img>
             <input
               type='url'
               placeholder='Enter a URL'
@@ -172,29 +175,37 @@ const KnowledgeBaseForm = () => {
             </div>
           )}
           {inputType === 'file' && (
+            <div className='relative flex items-center'>
+            <img src={pdf} className='absolute left-3 w-6 h-6 z-10'></img>
             <input
               type='file'
               accept='application/pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
               onChange={handleFileSelect}
               className='input pl-10 w-full h-11'
             />
+            </div>
           )}
           {inputType === 'handwriting' && (
+            <div className='relative flex items-center'>
+            <img src={image} className='absolute left-3 w-6 h-6 z-10'></img>
             <input
               type='file'
               accept='image/*'
               onChange={handleImageSelect}
               className='input pl-10 w-full h-11'
             />
+            </div>
           )}
           <button type='submit' className='submit_btn black_btn peer-focus:border-gray-700 peer-focus:text-gray-700'>
             ⏎
           </button>
         </form>
         <div>
-          <p className='text-xs ml-16 font-bold text-orange-800'>
-          {input.split(/\s+/).length} / 500 words
-          </p>
+          {inputType === 'text' && (
+            <p className='text-xs ml-16 -mb-4 font-bold text-orange-800'>
+              {input.split(/\s+/).length} / 500 words
+            </p>
+          )}
         </div>
         {isLoading ? (
           <p className="mt-7 font-bold text-center">Loading...</p>
