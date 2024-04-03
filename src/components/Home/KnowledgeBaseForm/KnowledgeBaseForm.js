@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetArticlesQuery } from '../../../services/article.js';
 import { extractTextFromPDF } from './pdfUtils';
+import axios from 'axios';
 import form from '../../images/form.png';
 import image from '../../images/image.png';
 import pdf from '../../images/pdf.png';
@@ -101,38 +102,45 @@ const KnowledgeBaseForm = () => {
   };
 
   const handleImageSelect = async (event) => {
+    if (event.target.files.length === 0) {
+      console.log('No file selected');
+      return;
+    }
+  
     const file = event.target.files[0];
     setImageFile(file);
     if (file.type.includes('image')) {
-      await handleImageSubmit(event);
+      await handleImageSubmit(file); // Pass the file directly
     }
-
   };
-
-  const handleImageSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!imageFile) {
+  
+  const handleImageSubmit = async (file) => { // Accept the file as a parameter
+    if (!file) {
       alert('Please select an image');
       return;
     }
-
+    setIsLoading(true);
     const formData = new FormData();
-    formData.append('image', imageFile);
-
+    formData.append('image', file);
+  
     try {
       const response = await axios.post('http://localhost:3001/analyze-image', formData, { // Adjust the URL
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-
-      setExtractedText(response.data.text);
-      // ... update your component's UI to display the extractedText
+  
+      setExtractedText(response);
+      console.log(response.data.text.value);
+      const extractedText = response.data.text.value;
+      console.log(extractedText);
+      const truncatedText = extractedText.split(/\s+/).slice(0, 550).join(' ');
+      setKnowledgeBase(truncatedText);
     } catch (error) {
       console.error('Error analyzing image:', error);
       // ... handle errors appropriately in the UI
     }
+    setIsLoading(false);
   };
 
   const handleSubmit = async (e) => {
