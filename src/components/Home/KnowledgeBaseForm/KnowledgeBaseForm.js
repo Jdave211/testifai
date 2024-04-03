@@ -12,6 +12,7 @@ const KnowledgeBaseForm = () => {
   const [inputType, setInputType] = useState('text');
   const [getArticle, { error }] = useLazyGetArticlesQuery();
   const [imageFile, setImageFile] = useState(null);
+  const [extractedText, setExtractedText] = useState('');
   const [resultText, setResultText] = useState('');
   const [knowledgeBase, setKnowledgeBase] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -100,11 +101,39 @@ const KnowledgeBaseForm = () => {
   };
 
   const handleImageSelect = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
+    const file = event.target.files[0];
+    setImageFile(file);
+    if (file.type.includes('image')) {
+      await handleImageSubmit(event);
+    }
 
   };
 
+  const handleImageSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!imageFile) {
+      alert('Please select an image');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    try {
+      const response = await axios.post('http://localhost:3001/analyze-image', formData, { // Adjust the URL
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      setExtractedText(response.data.text);
+      // ... update your component's UI to display the extractedText
+    } catch (error) {
+      console.error('Error analyzing image:', error);
+      // ... handle errors appropriately in the UI
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
