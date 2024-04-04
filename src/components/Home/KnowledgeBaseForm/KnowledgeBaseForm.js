@@ -130,8 +130,7 @@ const KnowledgeBaseForm = () => {
         }
       });
   
-      setExtractedText(response);
-      console.log(response.data.text.value);
+      setExtractedText(response.data.text.value);
       const extractedText = response.data.text.value;
       console.log(extractedText);
       const truncatedText = extractedText.split(/\s+/).slice(0, 550).join(' ');
