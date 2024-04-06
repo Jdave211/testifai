@@ -36,7 +36,7 @@ const ParametersDrop = () => {
         setIsLoading(true);
         setTimeout(async () => {
             try {
-                const serverResponse = await fetch(`http://localhost:8080?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: knowledgeBase}))}`);
+                const serverResponse = await fetch(`https://testifai-a40c45e8c19b.herokuapp.com/?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: knowledgeBase}))}`);
                 const data = await serverResponse.json();
                 setResponse(JSON.stringify(data, null, 2));
                 console.log(data);
@@ -47,7 +47,7 @@ const ParametersDrop = () => {
             } finally {
                 setIsLoading(false);
             }
-        }, 2000); 
+        }, 1000); 
     }
 
 
@@ -78,7 +78,7 @@ const ParametersDrop = () => {
             <Navbar />
             <div className='mt-5'>
                 {isLoading ?
-                    <div className='h-screen my-5 max-w-full flex justify-center items-center'> 
+                    <div className='h-screen my-5 max-w-full flex justify-center items-center'>
                         <img src={loader} alt='loader' className='w-30 h-30 object-contain' />
                     </div> :
                     (
