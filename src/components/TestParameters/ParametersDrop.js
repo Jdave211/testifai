@@ -36,7 +36,7 @@ const ParametersDrop = () => {
         setIsLoading(true);
         setTimeout(async () => {
             try {
-                const serverResponse = await fetch(`https://testifai-a40c45e8c19b.herokuapp.com/?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: knowledgeBase}))}`);
+                const serverResponse = await fetch(`https://testifai-a40c45e8c19b.herokuapp.com/generate-quiz/?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: knowledgeBase}))}`);
                 const data = await serverResponse.json();
                 setResponse(JSON.stringify(data, null, 2));
                 console.log(data);

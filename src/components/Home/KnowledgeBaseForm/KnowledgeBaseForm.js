@@ -124,7 +124,7 @@ const KnowledgeBaseForm = () => {
     formData.append('image', file);
   
     try {
-      const response = await axios.post('http://localhost:3001/analyze-image', formData, { // Adjust the URL
+      const response = await axios.post('https://handwriting-a5ba86269313.herokuapp.com/analyze-image', formData, { // Adjust the URL
         headers: {
           'Content-Type': 'multipart/form-data'
         }
