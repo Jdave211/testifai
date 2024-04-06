@@ -1,6 +1,7 @@
 import React from 'react';
 import ParticlesBg from 'particles-bg';
 import './Info.css';
+import { CanvasRevealEffectDemo3 } from './about.tsx';
 
 const Info = () => {
   return (
@@ -18,6 +19,7 @@ const Info = () => {
             <p className='column_text ml-5 font-bold'>
               Easily generate tests to practice and better understand stuff. Enter the URL of your class notes, video lecture, or document. Testifai will use this information to generate tailored quizzes for you. Select the difficulty level, test type (Multiple Choice, Short Answer, True/False, or Essay), and the number of questions for your quiz. Click the "Generate Test" button to receive a detailed quiz based on your selected parameters.
             </p>
+            <CanvasRevealEffectDemo3 />
           </div>
         </div>
       </div>
