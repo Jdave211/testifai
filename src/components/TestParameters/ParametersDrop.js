@@ -32,9 +32,12 @@ const ParametersDrop = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
-        
+
+        if (!selectedOptions.difficultyLevel || !selectedOptions.quizType || !selectedOptions.numberOfQuestions) {
+            alert('Please select all options before generating the test');
+            return;
+        }
         setIsLoading(true);
-        setTimeout(async () => {
             try {
                 const serverResponse = await fetch(`https://testifai-a40c45e8c19b.herokuapp.com/generate-quiz/?options=${encodeURIComponent(JSON.stringify({...selectedOptions, userMessage: knowledgeBase}))}`);
                 const data = await serverResponse.json();
@@ -47,7 +50,6 @@ const ParametersDrop = () => {
             } finally {
                 setIsLoading(false);
             }
-        }, 1000); 
     }
 
 
