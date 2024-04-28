@@ -88,9 +88,14 @@ const TestPage = () => {
                             Submit Quiz
                         </button>
                     ) : (
+                        <div>
                         <button type="button" onClick={handleNewQuiz} className="fixed bottom-4 right-4 bg-indigo-500 hover:bg-transparent hover:border-black hover:text-black text-white text-base font-medium py-3 px-6 rounded-lg border">
                             New Quiz
                         </button>
+                        <button type="button" onClick={handleNewQuiz} className="mb-4 left-4 bg-indigo-700 hover:bg-transparent hover:border-black hover:text-black text-white text-base font-medium py-3 px-6 rounded-lg border">
+                            Feedback
+                        </button>
+                        </div>
                     )}
                 </form>
             </div>
