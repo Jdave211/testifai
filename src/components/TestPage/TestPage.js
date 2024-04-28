@@ -46,6 +46,11 @@ const TestPage = () => {
         navigate('/');
     };
 
+    const handleFeedback = () => {
+        navigate('/feedback');
+    };
+    
+
     return (
         <div> 
             <Navbar /> 
