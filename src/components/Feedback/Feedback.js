@@ -3,7 +3,7 @@ import Navbar from '../Home/Navbar/Navbar';
 import ScoreCircle from './ScoreCircle';
 import Remark from './Remark';
 
-const ResultPage = () => {
+const Feedback = () => {
     const percentageGrade = JSON.parse(window.localStorage.getItem('percentageGrade'));
     return (
         <div>
@@ -25,4 +25,4 @@ const ResultPage = () => {
     );
 }
 
-export default ResultPage;
+export default Feedback;
