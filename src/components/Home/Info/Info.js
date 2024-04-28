@@ -10,7 +10,7 @@ const Info = () => {
         <div className=''>
           <p className='name mx-auto relative inf'>TestifAI</p>
           <div className='flex justify-between mb-2'>
-            <p className='text-5xl font-bold mx-auto stud'>By Students, For Students</p>
+            <p className='text-5xl font-bold mx-auto stud'>A new way to learn</p>
           </div>
           <div className='flex mt-8 mb-8 h-64'>
             <CanvasRevealEffectDemo />
