@@ -15,4 +15,4 @@ Features
 Bullet point list of the key functionalities:
 Generate multiple-choice or true/false quizzes based on user-provided text
 Customize quiz difficulty level
-Analyze uploaded images containing handwritten text to extract quiz content
+Analyze uploaded images containing handwritten text to extract quiz contents
